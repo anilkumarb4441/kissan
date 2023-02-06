@@ -1,0 +1,33 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-kgdev-dev-83224-authRole",
+      "UnauthRoleArn": "arn:aws:iam::649546830411:role/amplify-kgdev-dev-83224-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::649546830411:role/amplify-kgdev-dev-83224-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-kgdev-dev-83224-deployment",
+      "UnauthRoleName": "amplify-kgdev-dev-83224-unauthRole",
+      "StackName": "amplify-kgdev-dev-83224",
+      "StackId": "arn:aws:cloudformation:ap-south-1:649546830411:stack/amplify-kgdev-dev-83224/97a2ddb0-6c41-11ec-a455-0633cd6bb5c8",
+      "AmplifyAppId": "d3w289o0hzgfr"
+    },
+    "categories": {
+      "function": {
+        "kgdevFunPostConfirmation": {
+          "deploymentBucketName": "amplify-kgdev-dev-83224-deployment",
+          "s3Key": "amplify-builds/kgdevFunPostConfirmation-6b6c566d436467444d52-build.zip"
+        }
+      },
+      "auth": {
+        "userPoolGroups": {},
+        "kgdevcognito": {}
+      },
+      "storage": {
+        "kgdev357abe53": {
+          "bucketName": "lookup-system-resources",
+          "region": "ap-south-1"
+        }
+      }
+    }
+  }
+}

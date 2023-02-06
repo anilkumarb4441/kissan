@@ -1,0 +1,167 @@
+type ListingTracker @model @auth(rules: [{allow: public, operations: [create, update, delete, read]}, {allow: owner, operations: [create, update, delete, read]}]) {
+  tracking_id: String
+  date: AWSDateTime
+  message: String
+  status: ListingStatus
+  actor_user_name: String
+  actor_user_id: String
+}
+
+enum ListingStatus {
+  APPROVED
+  REJECTED
+  REFUNDED
+  PENDING_FOR_APPROVAL
+  EXPIRED
+  DRAFT
+}
+
+type Listing @model @auth(rules: [{allow: public, operations: [create, update, delete, read]}, {allow: owner, operations: [create, update, delete, read]}]) {
+  id: ID!
+  title: String
+  price: Float
+  description: String
+  plan_id: String
+  priority: Int
+  location: String
+  status: ListingStatus
+  is_active: Boolean
+  status_message: String
+  tracking_id: ListingTracker
+  media_directory: AWSURL
+  category: Categories
+  sub_category: SubCategory
+  access_type: Access
+  creater_user_id: String
+  creation_date: AWSDateTime
+  last_modified: AWSDateTime
+}
+
+type UserPlans @model @auth(rules: [{allow: public, operations: [create, update, delete, read]}, {allow: owner, operations: [create, update, delete, read]}]) {
+  id: ID!
+  user_id: String
+  start_date: AWSDateTime
+  end_date: AWSDateTime
+  plan_id: String
+}
+
+type Plans @model @auth(rules: [{allow: public, operations: [create, update, delete, read]}, {allow: owner, operations: [create, update, delete, read]}]) {
+  id: ID!
+  title: String!
+  price: Int
+  tenure: String
+  listings: Int
+  description: String
+  isActive: Boolean
+  plan_type: Access
+  priority: Int
+}
+
+type Address @model @auth(rules: [{allow: public, operations: [create, update, delete, read]}, {allow: owner, operations: [create, update, delete, read]}]) {
+  id: ID!
+  name: String
+  phone_number: String!
+  email: String
+  village_city: String
+  house_no_street: String
+  tehsil: String
+  district: String
+  state: String
+  country: String
+  pincode: String!
+  phone_number_verified: Boolean
+  parent_user_id: String!
+}
+
+type User @model @auth(rules: [{allow: public, operations: [create, update, delete, read]}, {allow: owner, operations: [create, update, delete, read]}]) {
+  id: ID! @index(name: "byPhoneNumber", sortKeyFields: ["phone_number"])
+  user_id: String
+  phone_number: String
+  access: Access
+  roles: [RoleUser] @hasMany(indexName: "byUser", fields: ["id"])
+  enabled: Boolean
+  name: String
+  org_name: String
+  email: String
+  gst_no: String
+  referral_type: String
+  referral_code: String
+}
+
+type RoleUser @model @auth(rules: [{allow: public, operations: [create, update, delete, read]}, {allow: owner, operations: [create, update, delete, read]}]) {
+  id: ID!
+  user_id: String
+  category: Categories
+  sub_category: SubCategory
+  role: Role
+  users: ID @index(name: "rolesByUserId")
+  userID: ID @index(name: "byUser")
+}
+
+enum Access {
+  DEALER
+  FARMER
+  SERVICE_PROVIDER
+  OTHERS
+  AGENT
+}
+
+enum Role {
+  DEFAULT
+  MASTER
+  OPERATOR
+  ADMIN
+  FINANCE_ADMIN
+}
+
+enum Categories {
+  OTHERS
+  MACHINERY
+  LIVESTOCK
+  CROP
+  PROPERTY
+  SILAGE
+  BIOMASS
+  MILK_AND_DAIRY
+  TYRE
+}
+
+enum SubCategory {
+  TRACTOR
+  COMBINE_HARVESTOR
+  STRAW_REAPER
+  STRAW_BAILER
+  FARMING_IMPLEMENTS
+}
+
+type Mutation {
+  updateUserRole(input: RoleUserInput!): RoleUser
+  addListing(input: MyListingInput): Listing
+}
+
+input RoleUserInput {
+  id: ID!
+  user_id: String
+  category: Categories
+  sub_category: SubCategory
+  role: Role
+}
+
+input MyListingInput {
+  id: ID!
+  hp: String
+  title: String
+  price: Float
+  description: String
+  plan_id: String
+  priority: Int
+  location: String
+  status: ListingStatus
+  is_active: Boolean
+  status_message: String
+  category: Categories
+  sub_category: SubCategory
+  access_type: Access
+  creater_user_id: String
+}
+ 

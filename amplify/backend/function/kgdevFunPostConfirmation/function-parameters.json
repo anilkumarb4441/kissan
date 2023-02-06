@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "api": {
+      "kgdev": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "storage": {
+      "User:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "RoleUser:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

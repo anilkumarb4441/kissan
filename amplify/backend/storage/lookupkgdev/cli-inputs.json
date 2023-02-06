@@ -1,0 +1,12 @@
+{
+  "resourceName": "lookupkgdev",
+  "policyUUID": "ae649d3e",
+  "bucketName": "lookupkgbucket",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE"
+  ]
+}

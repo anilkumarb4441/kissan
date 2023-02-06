@@ -1,0 +1,48 @@
+.myLeads_container{
+    background: #f9f9f9;
+}
+  .myLeads_main {
+    /* width: 80%; */
+    background: white;
+    border-radius: 0.75rem;
+    position: relative;
+    top: -1.75rem;
+    padding: 40px 30px;
+    margin: -30px auto 0 auto;
+  }
+
+  .myLeads_head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .myleads_filter{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .myleads_filter .filterWraper{
+    position:relative;
+    background-color: white;
+    border: 1px solid rgba(102, 102, 102, 0.2);
+    border-radius: 1.25rem;
+    font-weight: 300;
+    color: #000000;
+    font-size: 12px;
+    padding: 8px 14px;
+    width: 200px;
+  }
+  .myleads_filter .filterWraper .filtrName{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .filterWraper .filter_dropdown{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top:100%;
+    padding: 5px;
+    border: 1px solid black;
+  }
