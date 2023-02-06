@@ -1,3 +1,13 @@
+
+/* *{
+  margin: 0 !important;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+.myLeads_container p{
+  margin: 0;
+}
 .myLeads_container{
     background: #f9f9f9;
 }
@@ -7,7 +17,7 @@
     border-radius: 0.75rem;
     position: relative;
     top: -1.75rem;
-    padding: 40px 30px;
+    padding: 40px 30px 10px 30px;
     margin: -30px auto 0 auto;
   }
 
@@ -21,6 +31,11 @@
     align-items: center;
     gap: 15px;
   }
+  .myleads_filter .filt_Leads{
+    font-size: 12px;
+    font-weight: 500;
+    color:#111111 ;
+  }
   .myleads_filter .filterWraper{
     position:relative;
     background-color: white;
@@ -29,20 +44,275 @@
     font-weight: 300;
     color: #000000;
     font-size: 12px;
-    padding: 8px 14px;
-    width: 200px;
+    padding: 5px 14px;
+    width: 150px;
   }
   .myleads_filter .filterWraper .filtrName{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
+  .myleads_filter .filterWraper .filtrName>p{
+    font-size: 12px;
+    color: #111111;
+    font-weight: 500;
+  }
   .filterWraper .filter_dropdown{
     position: absolute;
     width: 100%;
     left: 0;
     top:100%;
-    padding: 5px;
-    border: 1px solid black;
+    padding: 5px 0;
+    border:1px solid #E5E5E5;
+    background-color: white;
+    border-radius: 5px;
+    z-index: 99;
   }
+  .iconRotateDrop{
+    rotate: 180deg;
+  }
+  .filterWraper .filter_dropdown>p{
+      font-size: 12px;
+      color: #111111;
+      padding: 5px;
+      font-weight: 500;
+  }
+  .filterWraper .filter_dropdown>p:hover{
+    background-color: rgb(238, 238, 238);
+  }
+  .filtrName>svg{
+    font-size: 26px;
+    color: rgba(0, 0, 0, 0.54);
+    transition: 0.2s ease;
+  }
+  .leadsExchange_Icon{
+    font-size: 12px;
+    transform: rotate(90deg);
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  /* my leads cards =========================*/
+  .myLeads_cards_container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+    margin: 2% 0;
+  }
+
+  .myLeads_cards_container .leadsCard{
+    width: 32%;
+    border-radius: 12px;
+    border: 1px solid #E5E5E5;
+    box-shadow: 0px 2.02186px 2.02186px rgba(0, 0, 0, 0.05);
+    margin-bottom: 50px;
+    padding-top:5px ;
+    position: relative;
+    background-color: white;
+  }
+  .lead_info{
+    display: flex;
+    gap: 15px;
+    padding: 5px 15px;
+  }
+  .lead_info>div:first-child{
+    width: 60%;
+    text-align: start;
+  }
+  .lead_info>div:first-child>h6{
+    font-size: 18px;
+    font-weight: 700;
+    color:  #3A3A3A;
+  }
+  .lead_info>div:last-child{
+    width: 40%;
+    text-align: end;
+  }
+
+  .lead_info p{
+    color: #666666;
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  .leadsCard .vehicleName{
+    font-size: 13px;
+    color: #111111;
+    font-weight: 700;
+  }
+.leadDistance{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+ justify-content: flex-end;
+}
+.leadDistance>svg{
+  font-size: 14px;
+  color: #747474;
+}
+.leadVehicle_info{
+  width: 100%;
+  display: flex;
+  align-items:flex-start;
+  border-radius: 12px;
+  background-color:#F1F1F1;
+  padding: 10px;
+  gap: 15px;
+  /* height:100%; */
+  z-index: 99;
+  position: relative;
+}
+.leadVehicle_info>div:first-child{
+  width: 35%;
+  /* height: fit-content; */
+}
+.leadVehicle_info>div:last-child{
+text-align: start;
+}
+.leadVehicle_info>div:first-child>img{
+width: 100%;
+border-radius: 7px;
+
+}
+
+.leadVehicle_info .rupeeIcon{
+  font-size: 16px;
+  color: #999999;
+}
+.leadVehicle_info .leadsVehicle_price{
+  font-size: 16px;
+  color: #3A3A3A;
+  font-weight: 600;
+}
+.leadVehicle_info p{
+  color: #666666;
+  font-size: 13px;
+  font-weight: 400;
+}
+.leads_call{
+  position: absolute;
+  top: 95%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  border-radius: 0px 0px 12px 12px;
+  background-color: #128454;
+  display: flex;
+   justify-content: space-between;
+   padding: 19px 10px 10px 15px;
+}
+.leads_call a{
+  width: 45%;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+}
+.leads_call div{
+  /* width: 45%; */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.leads_call svg{
+  font-size: 14px;
+  color: white;
+}
+.leads_call div p{
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+
+/* add appointmemt styles =================*/
+ 
+.add_appointmemt_Container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.568);
+  width: 100%;
+  min-height:100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.appointment_main{
+  width: 30%;
+  background: #128454;
+border-radius: 15px;
+position: relative;
+}
+.appointment_main>h5{
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  padding: 10px;
+}
+.appon_form{
+  width: 100%;
+  background: white;
+border-radius: 12px;
+padding: 10px 25px;
+}
+.form_input_holder{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.form_input_holder>label{
+  width: 48%;
+  font-size: 13px;
+  color: #222222;
+  font-weight: 500;
+  text-align: left;
+  padding-left: 10px;
+}
+.form_input_holder>input{
+  width: 48%;
+  padding: 5px;
+  border: 1px solid rgba(34, 34, 34, 0.25);
+  background-color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  color:  #222222;
+}
+.form_input_holder>select{
+  width: 48%;
+  padding: 5px;
+  border: 1px solid rgba(34, 34, 34, 0.25);
+  background-color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  color:  #222222;
+}
+.appointmentForm_button{
+  width: 100%;
+  text-align: center;
+
+}
+.appointmentForm_button button{
+  margin-top: 15px;
+  padding: 8px 40px;
+  background-color: #128454;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 16px;
+  border: none;
+}
+.appointment_form_close{
+  position: absolute;
+  top: -30px;
+  right: -30px;
+}
+.appointment_form_close svg{
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
