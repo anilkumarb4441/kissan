@@ -126,3 +126,40 @@
       .addTable_appoint{
         width: 100%;
       }
+      .masterAppoinChoose_ope{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: fit-content;
+        margin-left: auto;
+      }
+      .masterAppoinChoose_ope>p{
+        font-size: 13px;
+        color: #222222;
+      }
+      .masterAppoinChoose_ope>div{
+        width: 120px;
+      }
+      .masterAppoinChoose_ope .filterWraper{
+        position:relative;
+        background-color: white;
+        border: 1px solid rgba(102, 102, 102, 0.2);
+        border-radius: 1.25rem;
+        font-weight: 300;
+        color: #000000;
+        font-size: 12px;
+        padding: 5px 14px;
+        width: 150px;
+        cursor: pointer;
+      }
+      .masterAppoinChoose_ope .filterWraper .filtrName{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .masterAppoinChoose_ope .filterWraper .filtrName>p{
+        font-size: 12px;
+        color: #111111;
+        font-weight: 500;
+      }
+      

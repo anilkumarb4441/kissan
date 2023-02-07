@@ -22,6 +22,9 @@ const MyAppoinment = () => {
     const [addAppoinMent, setAddAppoinMent] = useState(false);
     const [showContact, setShowContact] = useState(false);
     const [contNumLead, setContNumLead] = useState('')
+    const [showOPerator, setShowOperartor] = useState(false);
+    const [chooseOPerator, setchooseOPerator] = useState('Choose Operators')
+    const [masterAppointment, setMasterAppointment]= useState('') // master keyword for master appointmemts
 
 
     const tableData = [
@@ -215,13 +218,44 @@ const MyAppoinment = () => {
         
     ]
     
-     // {
-        //     Header:'Contact No',
-        //     accessor:'ContactNo',
-        //     Cell:(props)=>{
-        //        return <div><p style={{textDecoration:'underline', cursor:'pointer'}} onClick={()=>{helloword(props.cell.row.original)}}>{props.cell.row.original.name}</p></div>
-        //     }
-        // },
+
+    //  master leasd columns
+    const columnsm1 = [
+        {
+            Header:'Name',
+            accessor:'name',
+    
+        },
+        {
+            Header:'Contact No',
+            accessor:'ContactNo',
+            
+        },
+        {
+            Header:'Location',
+            accessor:'location',
+    
+        },
+        {
+            Header:'Type of Lead',
+            accessor:'typeofLead',
+    
+        },
+        {
+            Header:'status',
+            accessor:'status',
+            // Cell:(props)=>{
+            //     // {props.cell.row.original.name}
+            //    return <div className='apooinTable_icon'><MdEdit /></div>
+            // }
+    
+        },
+       
+
+       
+        
+    ]
+    
 
     return (
       <section className='myAppoinment'>
@@ -246,7 +280,21 @@ const MyAppoinment = () => {
                                 <span>My </span>APPOINTMENTS
                             </h2>
                             <div className='appoinmentFilter'>
-                                <div className='addAppoint_Btn' onClick={()=>setAddAppoinMent(true)}>+ Add Appointments</div>
+                                {masterAppointment === 'master'?
+                               <div className="filterWraper" onClick={() => setShowOperartor(!showOPerator)} style={{width:'200px'}}>
+                               <div className='filtrName'>
+                                   <p>{chooseOPerator}</p>
+                                   <IoMdArrowDropdown className={showOPerator ? 'iconRotateDrop' : ''} />
+                               </div>
+                               {showOPerator && <div className='filter_dropdown'>
+                                   <p onClick={() => { setchooseOPerator('1 Day') }}>1 Day</p>
+                                   <p onClick={() => { setchooseOPerator('2 Day') }}>2 Day</p>
+                                   <p onClick={() => { setchooseOPerator('1 Week') }}>1 Week</p>
+                               </div>}
+                           </div>
+                                
+                                :
+                                 <div className='addAppoint_Btn' onClick={()=>setAddAppoinMent(true)}>+ Add Appointments</div>}
                                 <div className="filterWraper" onClick={() => setDropdownOpen(!dropdownOpen)}>
                                     <div className='filtrName'>
                                         <p>{dropdownOptions}</p>
@@ -267,7 +315,7 @@ const MyAppoinment = () => {
                         <div className='appont_todayTable'>
                         <ReactTable
                             data={tableData}
-                            columns={columns}
+                            columns={masterAppointment === 'master'? columnsm1:columns}
                         />
                         </div>
                        </div>
@@ -276,7 +324,7 @@ const MyAppoinment = () => {
                         <div className='appont_yestardy_Table'>
                         <ReactTable
                             data={tableData}
-                            columns={columns1}
+                            columns={masterAppointment === 'master'? columnsm1:columns1}
                         />
                         </div>
                        </div>
@@ -285,14 +333,30 @@ const MyAppoinment = () => {
                         <div className='appont_datewise_Table'>
                         <ReactTable
                             data={tableData}
-                            columns={columns2}
+                            columns={masterAppointment === 'master'? columnsm1:columns2}
                         />
                         </div>
                        </div>
                        
                     </div>
                   <div className='addTable_appoint'>
-                  <div className='addAppoint_Btn' onClick={()=>setAddAppoinMent(true)}>+ Add Appointments</div>
+                  {masterAppointment === 'master'?
+                  <div className='masterAppoinChoose_ope'>
+                    <p>Choose Operators appointments</p>
+                    <div className="filterWraper" onClick={() => setDropdownOpen(!dropdownOpen)} >
+                                    <div className='filtrName'>
+                                        <p>{dropdownOptions}</p>
+                                        <IoMdArrowDropdown className={dropdownOpen ? 'iconRotateDrop' : ''} />
+                                    </div>
+                                    {dropdownOpen && <div className='filter_dropdown'>
+                                        <p onClick={() => { setDropdownOption('1 Day') }}>1 Day</p>
+                                        <p onClick={() => { setDropdownOption('2 Day') }}>2 Day</p>
+                                        <p onClick={() => { setDropdownOption('1 Week') }}>1 Week</p>
+                                    </div>}
+                                </div>
+                  </div>
+                  :
+                  <div className='addAppoint_Btn' onClick={()=>setAddAppoinMent(true)}>+ Add Appointments</div>}
                   </div>
                     </div>
                  </div>
