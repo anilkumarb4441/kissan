@@ -23,6 +23,7 @@ const Postings = React.lazy(() => import('./components/Postings'))
 const Dealer = React.lazy(() => import('./components/Dealer'))
 const ServiceProvider = React.lazy(() => import('./components/ServiceProvider'))
 const MyLeads = React.lazy(()=>import('./components/myLeads/MyLeads'))
+const MyAppoinments = React.lazy(()=>import('./components/myAppoinments/MyAppoinments'))
 
 function App() {
   useEffect(() => {
@@ -45,7 +46,8 @@ function App() {
             <Route path="/Dealer" element={<Dealer />} />  
             <Route path="/ServiceProvider" element={<ServiceProvider />} />       
             <Route path="/" element={<Home />} />
-            <Route path="/MyLeads" element={<MyLeads />}/>         
+            <Route path="/MyLeads" element={<MyLeads />}/> 
+            <Route path="/MyAppoinments" element={<MyAppoinments />}/>         
           </Routes>
         </Suspense>
       </HashRouter>    

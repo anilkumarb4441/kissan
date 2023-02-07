@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {AiOutlineCloseCircle} from 'react-icons/ai';
 
+import './addAppoinment.css'
+
 
 const AddAppointment = ({setAppointmentForm}) => {
 
@@ -21,13 +23,14 @@ const AddAppointment = ({setAppointmentForm}) => {
         alert('formData')
         console.log(formData);
         setAppointmentForm(false);
+        window.location.href = '/sub/#/MyAppoinments'
     }
 
     return (
         <div className='add_appointmemt_Container'>
            <div className='appointment_main'>
             <div className='appointment_form_close'><AiOutlineCloseCircle  onClick={()=>setAppointmentForm(false)}/></div>
-                <h5>ADD APPOINMENTS</h5>
+                <h5>ADD APPOINTMENTS</h5>
                 <div className='appon_form'>
                     <form>
                         <div className='form_input_holder'>

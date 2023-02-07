@@ -12,13 +12,15 @@ import { IoMdCalendar } from 'react-icons/io';
 //css
 import './myLeads.css';
 import OfferZone from '../OfferZone';
-import AddAppointment from './addAppointment';
+import AddAppointment from '../addAppoinment/addAppointment';
 
 const MyLeads = () => {
 
     const [dropdownOptions, setDropdownOption] = useState('1 Day');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [appointmentForm, setAppointmentForm] = useState(false);
+    const [openPhoneNum, setOpenPhoneNum] = useState({open:false, phoneNum:''});
+    const [leadType, setLeadType] = useState(''); //masterLead
 
 
     const cardData = [
@@ -34,7 +36,7 @@ const MyLeads = () => {
             brand: 'Mahidra',
             specification: ' YUVO 415 D, 45 HP',
             regNo: 'KA 09 N 2121 - 2018',
-            phone: '9898656532'
+            phone: '9898656536'
         },
         {
             name: 'Rakesh Singh',
@@ -47,7 +49,7 @@ const MyLeads = () => {
             price: '5,54,000',
             brand: 'Mahidra',
             specification: ' YUVO 415 D, 45 HP',
-            phone: '9898656532'
+            phone: '9898651532'
         },
         {
             name: 'Rakesh Singh',
@@ -60,7 +62,7 @@ const MyLeads = () => {
             price: '5,54,000',
             brand: 'Mahidra',
             specification: ' YUVO 415 D, 45 HP',
-            phone: '9898656532'
+            phone: '9898956532'
         },
         {
             name: 'Rakesh Singh',
@@ -73,7 +75,7 @@ const MyLeads = () => {
             price: '5,54,000',
             brand: 'Mahidra',
             specification: ' YUVO 415 D, 45 HP',
-            phone: '9898656532'
+            phone: '9894656532'
         },
         {
             name: 'Rakesh Singh',
@@ -86,7 +88,7 @@ const MyLeads = () => {
             price: '5,54,000',
             brand: 'Mahidra',
             specification: ' YUVO 415 D, 45 HP',
-            phone: '9898656532'
+            phone: '9898256532'
         },
     ]
 
@@ -115,7 +117,7 @@ const MyLeads = () => {
                                 <span>My </span>Leads
                             </h2>
                             <div className="myleads_filter">
-                                <p className='filt_Leads'>06 leads in</p>
+                                <p className='filt_Leads'>{cardData.length<10 ?`0${cardData.length}`:cardData.length} leads in</p>
                                 <div className="filterWraper" onClick={() => setDropdownOpen(!dropdownOpen)}>
                                     <div className='filtrName'>
                                         <p>{dropdownOptions}</p>
@@ -161,18 +163,26 @@ const MyLeads = () => {
                                                     <p style={{ visibility: item.regNo ? 'visible' : 'hidden' }}>Reg no: {item.regNo}</p>
                                                 </div>
                                             </div>
-                                            <div className='leads_call'>
-                                                <a href={`tel:${item.phone}`}>
-                                                    <div>
+                                           {leadType === 'masterLead'?
+                                            <div className='leads_call' style={{flexDirection:'column'}}>
+                                                <p className='masterLead_det'>Sheduled by: <span>{item.name}</span></p>
+                                                <p className='masterLead_det'>Date: <span>24/11/2021 - 9:00pm</span></p>
+
+                                            </div>
+                                           :
+                                           <div className='leads_call'>
+                                                {/* <a href={`tel:${item.phone}`}> */}
+                                                    <div onClick={()=>setOpenPhoneNum({open:true, phoneNum:item.phone})}>
                                                         <BsTelephoneFill />
-                                                        <p>CALL NOW</p>
+                                                        {openPhoneNum.open && openPhoneNum.phoneNum ===  item.phone ? <p>{item.phone}</p>:  <p>CALL NOW</p>}
                                                     </div>
-                                                </a>
+                                                {/* </a> */}
                                                 <div onClick={()=>setAppointmentForm(true)}>
                                                     <IoMdCalendar />
                                                     <p>ADD APPOINMENT</p>
                                                 </div>
                                             </div>
+                                           }
                                         </div>
                                     )
                                 })

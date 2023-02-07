@@ -1,0 +1,128 @@
+
+.myAppoinment_container p{
+    margin: 0;
+  }
+  .myAppoinment_container{
+      background: #f9f9f9;
+  }
+    .myAppoinment_main {
+      /* width: 80%; */
+      background: white;
+      border-radius: 0.75rem;
+      position: relative;
+      top: -1.75rem;
+      padding: 40px 30px 10px 30px;
+      margin: -30px auto 0 auto;
+    }
+  
+    .myAppoinment_head{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ================= appoinmentFilter ===========*/
+
+    .appoinmentFilter{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .addAppoint_Btn{
+        padding: 8px;
+        font-size: 12px;
+        color: #222222;
+        font-weight: 500;
+        border: 1px solid #E5E5E5;
+        border-radius: 15px;
+        cursor: pointer;
+        width: fit-content;
+        margin-left: auto;
+    }
+    .addAppoint_Btn:hover{
+        color: #128454;
+    }
+
+    .appoinmentFilter .filterWraper{
+        position:relative;
+        background-color: white;
+        border: 1px solid rgba(102, 102, 102, 0.2);
+        border-radius: 1.25rem;
+        font-weight: 300;
+        color: #000000;
+        font-size: 12px;
+        padding: 5px 14px;
+        width: 150px;
+        cursor: pointer;
+      }
+      .appoinmentFilter .filterWraper .filtrName{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .appoinmentFilter .filterWraper .filtrName>p{
+        font-size: 12px;
+        color: #111111;
+        font-weight: 500;
+      }
+      .filterWraper .filter_dropdown{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top:100%;
+        padding: 5px 0;
+        border:1px solid #E5E5E5;
+        background-color: white;
+        border-radius: 5px;
+        z-index: 99;
+      }
+      .iconRotateDrop{
+        rotate: 180deg;
+      }
+      .filterWraper .filter_dropdown>p{
+          font-size: 12px;
+          color: #111111;
+          padding: 5px;
+          font-weight: 500;
+      }
+      .filterWraper .filter_dropdown>p:hover{
+        background-color: rgb(238, 238, 238);
+        cursor: pointer;
+      }
+      .filtrName>svg{
+        font-size: 26px;
+        color: rgba(0, 0, 0, 0.54);
+        transition: 0.2s ease;
+      }
+      .leadsExchange_Icon{
+        font-size: 12px;
+        transform: rotate(90deg);
+        color: rgba(0, 0, 0, 0.54);
+      }
+      .apooinTable_icon{
+        width: fit-content;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .apooinTable_icon>svg{
+        font-size: 15px;
+      }
+
+      .appont_todayTable .mainTable_container tbody tr:nth-child(odd){
+        background-color: rgba(250, 215, 215, 0.7) !important;
+      }
+      .addAppoin_table{
+        margin: 15px 0;
+      }
+      .addAppoin_table h4{
+        font-size: 16px;
+        font-weight: 600;
+        text-align: start;
+      }
+
+      .addAppoin_table h4 span{
+        color: #999999;
+      }
+      .addTable_appoint{
+        width: 100%;
+      }

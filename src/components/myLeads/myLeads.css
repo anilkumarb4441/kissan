@@ -46,6 +46,7 @@
     font-size: 12px;
     padding: 5px 14px;
     width: 150px;
+    cursor: pointer;
   }
   .myleads_filter .filterWraper .filtrName{
     display: flex;
@@ -79,6 +80,8 @@
   }
   .filterWraper .filter_dropdown>p:hover{
     background-color: rgb(238, 238, 238);
+    cursor: pointer;
+
   }
   .filtrName>svg{
     font-size: 26px;
@@ -105,7 +108,7 @@
     border-radius: 12px;
     border: 1px solid #E5E5E5;
     box-shadow: 0px 2.02186px 2.02186px rgba(0, 0, 0, 0.05);
-    margin-bottom: 50px;
+    margin-bottom: 80px;
     padding-top:5px ;
     position: relative;
     background-color: white;
@@ -144,7 +147,10 @@
   display: flex;
   align-items: center;
   gap: 6px;
- justify-content: flex-end;
+ justify-content: end;
+}
+.leadDistance>p{
+  margin: 0;
 }
 .leadDistance>svg{
   font-size: 14px;
@@ -315,4 +321,14 @@ padding: 10px 25px;
   color: white;
   font-size: 30px;
   cursor: pointer;
+}
+
+
+.masterLead_det{
+  font-size: 15px;
+  color: white;
+  text-align: start;
+}
+.masterLead_det>span{
+  font-weight: 700;
 }

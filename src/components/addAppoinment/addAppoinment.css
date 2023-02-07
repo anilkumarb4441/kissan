@@ -1,0 +1,88 @@
+.add_appointmemt_Container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.568);
+    width: 100%;
+    min-height:100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  
+  .appointment_main{
+    width: 30%;
+    background: #128454;
+  border-radius: 15px;
+  position: relative;
+  }
+  .appointment_main>h5{
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    padding: 10px;
+  }
+  .appon_form{
+    width: 100%;
+    background: white;
+  border-radius: 12px;
+  padding: 10px 25px;
+  }
+  .form_input_holder{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .form_input_holder>label{
+    width: 48%;
+    font-size: 13px;
+    color: #222222;
+    font-weight: 500;
+    text-align: left;
+    padding-left: 10px;
+  }
+  .form_input_holder>input{
+    width: 48%;
+    padding: 5px;
+    border: 1px solid rgba(34, 34, 34, 0.25);
+    background-color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    color:  #222222;
+  }
+  .form_input_holder>select{
+    width: 48%;
+    padding: 5px;
+    border: 1px solid rgba(34, 34, 34, 0.25);
+    background-color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    color:  #222222;
+  }
+  .appointmentForm_button{
+    width: 100%;
+    text-align: center;
+  
+  }
+  .appointmentForm_button button{
+    margin-top: 15px;
+    padding: 8px 40px;
+    background-color: #128454;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 16px;
+    border: none;
+  }
+  .appointment_form_close{
+    position: absolute;
+    top: -30px;
+    right: -30px;
+  }
+  .appointment_form_close svg{
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+  }
