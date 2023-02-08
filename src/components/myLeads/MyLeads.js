@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
+import {getCurrentSession} from "../../endpoints/amplify/auth"
+import {API_PUBLIC_HOST} from '../Common/Constants'
 
 //assets
 import topBanner from "././../../assets/images/page_top_banner.png"
@@ -22,6 +25,49 @@ const MyLeads = () => {
     const [openPhoneNum, setOpenPhoneNum] = useState({open:false, phoneNum:''});
     const [leadType, setLeadType] = useState(''); //masterLead
 
+    //api state
+    const [listLeads, setListLeads] = useState([]);
+
+    console.log(listLeads, 'listLeads')
+
+    const fetchListLeads = ()=>{
+        getCurrentSession((success, jwtToken)=>{
+            const url = `${API_PUBLIC_HOST}/lead/listLeads`;
+            var data = {
+                
+                    accessType: "OTHERS",
+                    listingId: "string",
+                    page: {
+                      pageNumber: 0,
+                      pageSize: 0
+                    },
+                    sellerUserId: "string",
+                    status: ["Active" ],
+                    visitorUserId: "string"
+                };
+                axios({
+                    method: 'post',
+                    url: url,
+                    data: data,
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                       Authorization: jwtToken,
+                    },
+                  })
+                    .then((response) => {
+                        setListLeads(response.data.response.leads)
+                        console.log(response.data.response.leads)
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                    }); 
+        })
+    }
+
+    useEffect(()=>{
+        fetchListLeads();
+    },[dropdownOptions])
 
     const cardData = [
         {

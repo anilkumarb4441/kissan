@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import {AiOutlineCloseCircle} from 'react-icons/ai';
+import axios from 'axios'
+import {getCurrentSession} from "../../endpoints/amplify/auth"
+import {API_PUBLIC_HOST} from '../Common/Constants'
 
+//css
 import './addAppoinment.css'
 
 
@@ -20,11 +24,43 @@ const AddAppointment = ({setAppointmentForm}) => {
 
     const onSubmitAppoinMent = (e)=>{
         e.preventDefault();
-        alert('formData')
-        console.log(formData);
-        setAppointmentForm(false);
+        alert('formData');
+        getCurrentSession((success, jwtToken)=>{
+            const url = `${API_PUBLIC_HOST}/lead/addAppointment`;
+            var data = {
+                appointmentDate: "2023-02-08T12:53:47.133Z",
+                buyerId: "string",
+                buyerName: "string",
+                comments: "string",
+                id: "string",
+                listId: "string",
+                location: "string",
+                new: true,
+                sellerId: "string",
+                sellerName: "string",
+                status: "Open"
+              }
+
+                axios({
+                    method: 'post',
+                    url: url,
+                    data: data,
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                       Authorization: jwtToken,
+                    },
+                  })
+                    .then((response) => {
+                        // setListLeads(response.data.response.leads)
+                        console.log(response)
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                    }); 
+        })
         window.location.href = '/sub/#/MyAppoinments'
-    }
+    } 
 
     return (
         <div className='add_appointmemt_Container'>

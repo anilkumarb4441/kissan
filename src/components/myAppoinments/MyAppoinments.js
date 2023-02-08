@@ -24,7 +24,7 @@ const MyAppoinment = () => {
     const [contNumLead, setContNumLead] = useState('')
     const [showOPerator, setShowOperartor] = useState(false);
     const [chooseOPerator, setchooseOPerator] = useState('Choose Operators')
-    const [masterAppointment, setMasterAppointment]= useState('') // master keyword for master appointmemts
+    const [masterAppointment, setMasterAppointment]= useState('master') // master keyword for master appointmemts
 
 
     const tableData = [
@@ -35,6 +35,8 @@ const MyAppoinment = () => {
             location:'R R Nagar, Bangalore',
             typeofLead:'Mahendra, YUVO 415 D,',
             status:'open',
+            assignName:'Kishan Kumar',
+            time:'3:00 pm',
         },
         {
             name:'Rakesh singh',
@@ -43,6 +45,8 @@ const MyAppoinment = () => {
             location:'R R Nagar, 2nd Phase Bangalore Karnataka',
             typeofLead:'Mahendra, YUVO 415 D,',
             status:'open',
+            assignName:'Kishan Kumar',
+            time:'3:00 pm',
         },
         {
             name:'Rakesh singh',
@@ -51,6 +55,8 @@ const MyAppoinment = () => {
             location:'R R Nagar, Bangalore',
             typeofLead:'R R Nagar, 2nd Phase Bangalore Karnataka',
             status:'open',
+            assignName:'Kishan Kumar',
+            time:'3:00 pm',
         },
         {
             name:'Rakesh singh',
@@ -59,6 +65,8 @@ const MyAppoinment = () => {
             location:'R R Nagar, Bangalore',
             typeofLead:'Mahendra, YUVO 415 D,',
             status:'open',
+            assignName:'Kishan Kumar',
+            time:'3:00 pm',
         },
     ]
 
@@ -230,6 +238,16 @@ const MyAppoinment = () => {
             Header:'Contact No',
             accessor:'ContactNo',
             
+        },
+        {
+            Header:'Assign Name',
+            accessor:'assignName',
+            
+        },
+        {
+            Header:'Time',
+            accessor:'time',
+           
         },
         {
             Header:'Location',
