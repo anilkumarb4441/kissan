@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
+import {getCurrentSession} from "../../endpoints/amplify/auth"
+import {API_PUBLIC_HOST} from '../Common/Constants'
 
 //assets
 import topBanner from "././../../assets/images/page_top_banner.png"
@@ -17,7 +19,7 @@ import AddAppointment from '../addAppoinment/addAppointment';
 
 const MyAppoinment = () => {
 
-    const [dropdownOptions, setDropdownOption] = useState('1 Day');
+    const [dropdownOptions, setDropdownOption] = useState('1 Day'); //dropdown
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [addAppoinMent, setAddAppoinMent] = useState(false);
     const [showContact, setShowContact] = useState(false);
@@ -25,7 +27,9 @@ const MyAppoinment = () => {
     const [showOPerator, setShowOperartor] = useState(false);
     const [chooseOPerator, setchooseOPerator] = useState('Choose Operators')
     const [masterAppointment, setMasterAppointment] = useState('') // master keyword for master appointmemts
-    const [deleteConfirm, setDeleteConfirm] = useState(false);
+    const [deleteConfirm, setDeleteConfirm] = useState(false); //delete popup
+    const [appomtList, setAppontList] = useState([]) //appointmentList
+
 
 
     const tableData = [
@@ -106,14 +110,14 @@ const MyAppoinment = () => {
             accessor: '',
             Cell: (props) => {
                 // {props.cell.row.original.name}
-                return <div className='apooinTable_icon' onClick={()=>{submitEditAppointment();}}><MdEdit /></div>
+                return <div className='apooinTable_icon' onClick={() => { submitEditAppointment(); }}><MdEdit /></div>
             }
         },
         {
             Header: ',',
             accessor: '',
             Cell: (props) => {
-                return <div className='apooinTable_icon' onClick={()=>{setDeleteConfirm({...deleteConfirm, open:true})}}><MdDelete /></div>
+                return <div className='apooinTable_icon' onClick={() => { setDeleteConfirm({ ...deleteConfirm, open: true }) }}><MdDelete /></div>
             }
         },
 
@@ -272,9 +276,79 @@ const MyAppoinment = () => {
 
     ]
 
-    const submitEditAppointment = ()=>{
-        
+
+    const fetchAppointmentList = ()=>{
+        getCurrentSession((success, jwtToken)=>{
+            const url = `${API_PUBLIC_HOST}/lead/listAppointments`;
+            var data = {
+                buyerUserId: "string",
+                endDate: "2023-02-09T12:14:39.442Z",
+                listingId: "string",
+                sellerUserId: "string",
+                startDate: "2023-02-09T12:14:39.442Z",
+                status: "Open"
+              };
+                axios({
+                    method: 'post',
+                    url: url,
+                    data: data,
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                       Authorization: jwtToken,
+                    },
+                  })
+                    .then((response) => {
+                        setAppontList(response.data.response.leads)
+                        console.log(response.data.response.leads)
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                    }); 
+        })
     }
+
+    const listAppointWithMetaData = ()=>{
+        getCurrentSession((success, jwtToken)=>{
+            const url = `${API_PUBLIC_HOST}/lead/listAppointmentsWithMetadata`;
+            var data = {
+                buyerUserId: "string",
+                endDate: "2023-02-09T12:23:13.173Z",
+                listingId: "string",
+                sellerUserId: "string",
+                startDate: "2023-02-09T12:23:13.173Z",
+                status: "Open"
+              };
+                axios({
+                    method: 'post',
+                    url: url,
+                    data: data,
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                       Authorization: jwtToken,
+                    },
+                  })
+                    .then((response) => {
+                        setAppontList(response.data.response.leads)
+                        console.log(response.data.response.leads)
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                    }); 
+        })
+    }
+
+    useEffect(()=>{
+        fetchAppointmentList();
+        listAppointWithMetaData();
+    }, [])
+
+    const submitEditAppointment = () => {
+
+    }
+
+
 
 
     return (
@@ -361,7 +435,6 @@ const MyAppoinment = () => {
                                     />
                                 </div>
                             </div>
-
                         </div>
                         <div className='addTable_appoint'>
                             {masterAppointment === 'master' ?
@@ -380,7 +453,7 @@ const MyAppoinment = () => {
                                     </div>
                                 </div>
                                 :
-                                <div className='addAppoint_Btn' onClick={() => setAddAppoinMent(true)}>+ Add Appointments</div>}
+                                null}
                         </div>
                     </div>
                 </div>
@@ -392,18 +465,18 @@ const MyAppoinment = () => {
                 addAppoinMent ? <AddAppointment setAppointmentForm={setAddAppoinMent} /> : null
             }
             {
-                deleteConfirm.open? 
-                <div className='editConfirm_box'>
-                    <div className='confilrmBox'>
-                        <h5>Are you sure you want to delete this lead</h5>
-                        <p>This Lead will delete permanently. you cannot undo this action</p>
-                        <div className='deleteConfirm_btns'>
-                            <button className='delCancel' onClick={()=>setDeleteConfirm({...deleteConfirm, open:false})}>Cancel</button>
-                            <button className='delOk'>Ok</button>
+                deleteConfirm.open ?
+                    <div className='editConfirm_box'>
+                        <div className='confilrmBox'>
+                            <h5>Are you sure you want to delete this lead</h5>
+                            <p>This Lead will delete permanently. you cannot undo this action</p>
+                            <div className='deleteConfirm_btns'>
+                                <button className='delCancel' onClick={() => setDeleteConfirm({ ...deleteConfirm, open: false })}>Cancel</button>
+                                <button className='delOk'>Ok</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                :null
+                    : null
             }
         </section>
     );
