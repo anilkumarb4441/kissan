@@ -20,7 +20,7 @@ import AddAppointment from '../addAppoinment/addAppointment';
 const MyLeads = () => {
 
     const [dropdownOptions, setDropdownOption] = useState('1 Day');
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false); 
     const [appointmentForm, setAppointmentForm] = useState(false);
     const [openPhoneNum, setOpenPhoneNum] = useState({open:false, phoneNum:''});
     const [leadType, setLeadType] = useState(''); //masterLead
@@ -171,8 +171,9 @@ const MyLeads = () => {
                                     </div>
                                     {dropdownOpen && <div className='filter_dropdown'>
                                         <p onClick={() => { setDropdownOption('1 Day') }}>1 Day</p>
-                                        <p onClick={() => { setDropdownOption('2 Day') }}>2 Day</p>
-                                        <p onClick={() => { setDropdownOption('1 Week') }}>1 Week</p>
+                                        <p onClick={() => { setDropdownOption('2 Day') }}>yestarday</p>
+                                        <p onClick={() => { setDropdownOption('1 Week') }}>last one Week</p>
+                                        <p onClick={() => { setDropdownOption('1 Week') }}>last two Weeks</p>
                                     </div>}
                                 </div>
                                 <FaExchangeAlt className='leadsExchange_Icon' />
@@ -210,8 +211,8 @@ const MyLeads = () => {
                                                 </div>
                                             </div>
                                            {leadType === 'masterLead'?
-                                            <div className='leads_call' style={{flexDirection:'column'}}>
-                                                <p className='masterLead_det'>Sheduled by: <span>{item.name}</span></p>
+                                            <div className='leads_call' style={{flexDirection:'column', backgroundColor:'#EC9C01'}}>
+                                                <p className='masterLead_det' >Sheduled by: <span>{item.name}</span></p>
                                                 <p className='masterLead_det'>Date: <span>24/11/2021 - 9:00pm</span></p>
 
                                             </div>

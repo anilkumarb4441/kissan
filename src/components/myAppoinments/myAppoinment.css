@@ -163,3 +163,60 @@
         font-weight: 500;
       }
       
+/*  edit confirm box   */
+.editConfirm_box{
+  position: fixed;
+ top: 0;
+ left: 0;
+ background-color: #00000079;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 100%;
+ height: 100vh;
+}
+
+.confilrmBox{
+  padding: 15px 20px 20px 20px;
+  background-color: white;
+  transition: 0.3s ease;
+  width: 35%;
+}
+.confilrmBox>h5{
+  font-size: 17px;
+  font-weight: 600;
+  
+}
+.confilrmBox>p{
+  margin: 15px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.deleteConfirm_btns{
+  display: flex;
+  align-items: center;
+  gap: 10%;
+  width: fit-content;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.deleteConfirm_btns .delCancel{
+  border: 1px solid black;
+  color: black;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 15px;
+  width: 110px;
+  border-radius: 5px;
+}
+.deleteConfirm_btns .delOk{
+  background-color: red;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 15px;
+  width: 110px;
+  border-radius: 5px;
+  border: 1px solid black;
+}

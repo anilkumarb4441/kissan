@@ -74,6 +74,10 @@ const AddAppointment = ({setAppointmentForm}) => {
                             <input type='text' placeholder='Enter Name' name='name' value={formData.name} onChange={(e)=>onChangeForm(e)}/>
                         </div>
                         <div className='form_input_holder'>
+                            <label>Type of Lead:</label>
+                            <input type='text' placeholder='Enter Brand & model' name='typeOfLead' value={formData.typeOfLead} onChange={(e)=>onChangeForm(e)}/>
+                        </div>
+                        <div className='form_input_holder'>
                             <label>Chooser Date:</label>
                             <input type='date' placeholder='Choose date' name='date' value={formData.date} onChange={(e)=>onChangeForm(e)}/>
                         </div>
@@ -89,10 +93,7 @@ const AddAppointment = ({setAppointmentForm}) => {
                             <label>Location:</label>
                             <input name='location' type='text' placeholder='Enter location' value={formData.location} onChange={(e)=>onChangeForm(e)}/>
                         </div>
-                        <div className='form_input_holder'>
-                            <label>Type of Lead:</label>
-                            <input type='text' placeholder='Enter Brand & model' name='typeOfLead' value={formData.typeOfLead} onChange={(e)=>onChangeForm(e)}/>
-                        </div>
+                        
                         <div className='appointmentForm_button'>
                             <button onClick={(e)=>onSubmitAppoinMent(e)}>SUBMIT</button>
                         </div>

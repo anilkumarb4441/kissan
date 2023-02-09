@@ -205,7 +205,7 @@ border-radius: 7px;
   background-color: #128454;
   display: flex;
    justify-content: space-between;
-   padding: 19px 10px 10px 15px;
+   padding: 19px 10px 6px 15px;
 }
 .leads_call a{
   width: 45%;
@@ -325,7 +325,7 @@ padding: 10px 25px;
 
 
 .masterLead_det{
-  font-size: 15px;
+  font-size: 13px;
   color: white;
   text-align: start;
 }
