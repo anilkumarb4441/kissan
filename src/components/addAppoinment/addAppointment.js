@@ -8,7 +8,7 @@ import {API_PUBLIC_HOST} from '../Common/Constants'
 import './addAppoinment.css'
 
 
-const AddAppointment = ({setAppointmentForm}) => {
+const AddAppointment = ({setAppointmentForm, }) => {
 
     const [formData, setFormData] = useState({
         name:'',
@@ -61,6 +61,45 @@ const AddAppointment = ({setAppointmentForm}) => {
         })
         window.location.href = '/sub/#/MyAppoinments'
     } 
+const updateAppointment = (e)=>{
+
+    e.preventDefault();
+
+    getCurrentSession((success, jwtToken)=>{
+        const url = `${API_PUBLIC_HOST}/lead/updateAppointment`;
+        var data = {
+            appointmentDate: "2024-02-10T16:27:19.063Z",
+            buyerId: "string",
+            buyerName: "string",
+            comments: "string",
+            id: "string",
+            listId: "string",
+            location: "string",
+            new: true,
+            sellerId: "string",
+            sellerName: "string",
+            status: "Open"
+          }
+
+            axios({
+                method: 'post',
+                url: url,
+                data: data,
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                   Authorization: jwtToken,
+                },
+              })
+                .then((response) => {
+                    // setListLeads(response.data.response.leads)
+                    console.log(response)
+                })
+                .catch((error) => {
+                  console.log(error)
+                }); 
+    })
+}
 
     return (
         <div className='add_appointmemt_Container'>
@@ -95,7 +134,7 @@ const AddAppointment = ({setAppointmentForm}) => {
                         </div>
                         
                         <div className='appointmentForm_button'>
-                            <button onClick={(e)=>onSubmitAppoinMent(e)}>SUBMIT</button>
+                            <button onClick={(e)=>{onSubmitAppoinMent(e); updateAppointment(e)}}>SUBMIT</button>
                         </div>
                     </form>
                 </div>
