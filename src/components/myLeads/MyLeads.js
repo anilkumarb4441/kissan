@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios'
-import {getCurrentSession} from "../../endpoints/amplify/auth"
+import {getCurrentSession} from "../../endpoints/amplify/auth"  // its from amplify
 import {API_PUBLIC_HOST} from '../Common/Constants'
 
 //assets
@@ -16,6 +16,9 @@ import { IoMdCalendar } from 'react-icons/io';
 import './myLeads.css';
 import OfferZone from '../OfferZone';
 import AddAppointment from '../addAppoinment/addAppointment';
+import CustomDateRange from '../RangeCalender/rangeCalender';
+
+const tractorImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3qEL8Y1O9QeC81SXnqtpKF8ed1ty7ewbwTw&usqp=CAU'
 
 const MyLeads = () => {
 
@@ -24,26 +27,45 @@ const MyLeads = () => {
     const [appointmentForm, setAppointmentForm] = useState(false);
     const [openPhoneNum, setOpenPhoneNum] = useState({open:false, phoneNum:''});
     const [leadType, setLeadType] = useState(''); //masterLead
+    const [rangeDate, setRangeDate] = useState(null); //date range
 
     //api state
-    const [listLeads, setListLeads] = useState([]);
+    const [listLeads, setListLeads] = useState({});
 
-    console.log(listLeads, 'listLeads')
+    const listLeadsArry = useMemo(()=>{
+        // console.log(listLeads)
+        let list = listLeads?.leads?.map((item)=>{
+         let listMapObj = listLeads.listDetailMap[item.listId]
+        let adressMapObj = listLeads.addressMap[listMapObj.address];
+           return {
+            ...item, ...listMapObj, ...adressMapObj
+           }
+        })
+        // console.log(list, 'llllllllllllll');
+return list;
+    },[listLeads]);
+    console.log(listLeadsArry);
+
+    console.log(listLeads, 'listLeads');
 
     const fetchListLeads = ()=>{
-        getCurrentSession((success, jwtToken)=>{
+        getCurrentSession((success, user, jwtToken)=>{
             const url = `${API_PUBLIC_HOST}/lead/listLeads`;
             var data = {
-                
-                    accessType: "OTHERS",
-                    listingId: "string",
+
+                    // accessType: "OTHERS",
+                    listingId: "",
                     page: {
-                      pageNumber: 0,
-                      pageSize: 0
+                      pageNumber: 1,
+                      pageSize: 10,
                     },
-                    sellerUserId: "string",
-                    status: ["Active" ],
-                    visitorUserId: "string"
+                    sellerUserId: "",
+                    status: ["Active"],
+                    visitorUserId: "",
+                    sort:"LEAD_CREATED_DATE",
+                    isAscendingSort:"false",
+                    startDate:"2023-02-21",
+                    endDate:"2023-02-25"
                 };
                 axios({
                     method: 'post',
@@ -56,18 +78,17 @@ const MyLeads = () => {
                     },
                   })
                     .then((response) => {
-                        setListLeads(response.data.response.leads)
-                        console.log(response.data.response.leads)
+                        setListLeads(response.data.response);
                     })
                     .catch((error) => {
                       console.log(error)
                     }); 
         })
     }
-
+  
     useEffect(()=>{
         fetchListLeads();
-    },[dropdownOptions])
+    },[dropdownOptions]);
 
     const cardData = [
         {
@@ -138,6 +159,11 @@ const MyLeads = () => {
         },
     ]
 
+    const hourCaluculation = (date)=>{
+      let currentDate = new Date().getHours();
+      let newDate = new Date(date).getHours()
+      return currentDate-newDate
+    }
 
     return (
 
@@ -163,7 +189,12 @@ const MyLeads = () => {
                                 <span>My </span>Leads
                             </h2>
                             <div className="myleads_filter">
-                                <p className='filt_Leads'>{cardData.length<10 ?`0${cardData.length}`:cardData.length} leads in</p>
+                            <CustomDateRange
+                                range={rangeDate}
+                                onChange={(arr) => {
+                                setRangeDate(arr)
+                                }} />
+                                <p className='filt_Leads'>{listLeadsArry?.length<10 ?`0${listLeadsArry?.length}`:listLeadsArry?.length} leads in</p>
                                 <div className="filterWraper" onClick={() => setDropdownOpen(!dropdownOpen)}>
                                     <div className='filtrName'>
                                         <p>{dropdownOptions}</p>
@@ -180,33 +211,33 @@ const MyLeads = () => {
                             </div>
                         </div>
                         <div className='myLeads_cards_container'>
-                            {cardData && cardData.length > 0 &&
-                                cardData.map((item, idx) => {
+                            {listLeadsArry && listLeadsArry.length > 0 &&
+                                listLeadsArry.map((item, idx) => {
                                     return (
                                         <div className='leadsCard' key={idx}>
                                             <div className='lead_info'>
                                                 <div>
                                                     <h6>{item.name}</h6>
                                                     <p>Type of Vehicel: <span className='vehicleName'>{item.typeOfVehicle}</span></p>
-                                                    <p>{item.address}</p>
+                                                    <p>{item.houseNoStreet}, {item.villageCity}, {item.districtName}, {item.stateName}, {item.countryName} -{item.pincode}</p>
                                                 </div>
                                                 <div>
-                                                    <p>{item.InTime}</p>
-                                                    <p>{item.regNum}</p>
+                                                    <p>{hourCaluculation(item.createdDate)} Hours Back</p>
+                                                    <p>{item.regNum} Model No</p>
                                                     <div className='leadDistance'>
                                                         <MdLocationPin />
-                                                        <p>{item.distance}</p>
+                                                        <p>{item.distance} KM away</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className='leadVehicle_info'>
                                                 <div>
-                                                    <img src={item.img} alt="img" />
+                                                    <img src={item.thumbnailUrl !== null?item.thumbnailUrl:tractorImg} alt="img" />
                                                 </div>
                                                 <div>
                                                     <p><span className='rupeeIcon'>₹ </span> <span className='leadsVehicle_price'>{item.price}</span></p>
-                                                    <p><span className='vehicleName'>{item.brand}- </span>{item.typeOfVehicle}</p>
-                                                    <p>{item.specification}</p>
+                                                    <p><span className='vehicleName'>{item.title}- </span>{item.typeOfVehicle}</p>
+                                                    <p>{item.subtitle}</p>
                                                     <p style={{ visibility: item.regNo ? 'visible' : 'hidden' }}>Reg no: {item.regNo}</p>
                                                 </div>
                                             </div>
@@ -219,9 +250,9 @@ const MyLeads = () => {
                                            :
                                            <div className='leads_call'>
                                                 {/* <a href={`tel:${item.phone}`}> */}
-                                                    <div onClick={()=>setOpenPhoneNum({open:true, phoneNum:item.phone})}>
+                                                    <div onClick={()=>setOpenPhoneNum({open:true, phoneNum:item.listId})}>
                                                         <BsTelephoneFill />
-                                                        {openPhoneNum.open && openPhoneNum.phoneNum ===  item.phone ? <p>{item.phone}</p>:  <p>CALL NOW</p>}
+                                                        {openPhoneNum.open && openPhoneNum.phoneNum ===  item.listId ? <p>{item.phoneNumber}</p>:  <p>CALL NOW</p>}
                                                     </div>
                                                 {/* </a> */}
                                                 <div onClick={()=>setAppointmentForm(true)}>
@@ -244,7 +275,7 @@ const MyLeads = () => {
             </div>
             <OfferZone />
             { appointmentForm?
-                <AddAppointment setAppointmentForm={setAppointmentForm} />
+                <AddAppointment setAppointmentForm={setAppointmentForm} listLeadsArry={listLeadsArry}/>
                 :
                 null
             }

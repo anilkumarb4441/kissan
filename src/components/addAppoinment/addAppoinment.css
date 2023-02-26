@@ -21,13 +21,13 @@
     font-size: 15px;
     font-weight: 600;
     color: white;
-    padding: 10px;
+    padding: 10px ;
   }
   .appon_form{
     width: 100%;
     background: white;
   border-radius: 12px;
-  padding: 10px 25px;
+  padding: 25px 25px;
   }
   .form_input_holder{
     display: flex;
@@ -52,6 +52,21 @@
     font-size: 13px;
     color:  #222222;
   }
+   .form_input_holder>.react-time-picker{
+    width: 48%;
+    padding: 5px;
+    border: 1px solid rgba(34, 34, 34, 0.25);
+    background-color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    color:  #222222;
+   }
+   .react-time-picker__wrapper{
+    border: none;
+   }
+   .react-time-picker__wrapper>button:first-child(){
+    display: none !important;
+   }
   .form_input_holder>select{
     width: 48%;
     padding: 5px;
@@ -64,6 +79,7 @@
   .appointmentForm_button{
     width: 100%;
     text-align: center;
+  
   
   }
   .appointmentForm_button button{
@@ -85,4 +101,13 @@
     color: white;
     font-size: 30px;
     cursor: pointer;
+  }
+  .appoinntMent_sccMsg{
+    font-size: 18px;
+    font-weight: 600;
+    color: #128454;
+    width: 100%;
+    height: 30%;
+    padding: 10%;
+    background-color: white;
   }

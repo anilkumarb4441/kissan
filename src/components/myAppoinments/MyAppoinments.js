@@ -5,10 +5,11 @@ import {API_PUBLIC_HOST} from '../Common/Constants'
 
 //assets
 import topBanner from "././../../assets/images/page_top_banner.png"
-import { FaExchangeAlt } from 'react-icons/fa';
+import { FaExchangeAlt, FaCalendarDay } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md'
-import { MdEdit } from 'react-icons/md'
+import { MdEdit, MdError, MdArrowBackIosNew } from 'react-icons/md'
+
 
 //css 
 import './myAppoinment.css';
@@ -27,65 +28,101 @@ const MyAppoinment = () => {
     const [showOPerator, setShowOperartor] = useState(false);
     const [chooseOPerator, setchooseOPerator] = useState('Choose Operators')
     const [masterAppointment, setMasterAppointment] = useState('') // master keyword for master appointmemts
-    const [deleteConfirm, setDeleteConfirm] = useState(false); //delete popup
+    const [deleteConfirm, setDeleteConfirm] = useState({open:false, id:''}); //delete popup
     const [appomtList, setAppontList] = useState([]) //appointmentList
 
-    const [statusdropdown, setStatusDropdown ] = useState({open:false, id:''});
+     const [appointmentState, setAppointmentState] = useState('')
 
-        console.log(statusdropdown, 'statusdropdown')
+    const [editObj, setEditObj] = useState({});
+    
+    
+    function tConvert (time) {
+        // Check correct time format and split into components
+        time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+      
+        if (time.length > 1) { // If time format correct
+          time = time.slice (1);  // Remove full string match value
+          time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+          time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join (''); // return adjusted time or original string
+      }
+      
+      const onChangeTableStatus = (item, targetVal, index1)=>{
+        let targetStatus = appomtList.find((val)=>val.id === item.id);
+        let targIndex = {...targetStatus, status:targetVal.target.value}
+        var matchtheArray = appomtList.filter(x => x.id !== item.id);
+        matchtheArray.splice(index1, 0, targIndex)
+        setAppontList(matchtheArray);
+      }
 
     const tableData = [
         {
             name: 'Rakesh singh',
             ContactNo: '8865956532',
-            Time: '3.00pm',
+            Time: '03:00',
             location: 'R R Nagar, Bangalore',
             typeofLead: 'Mahendra, YUVO 415 D,',
             status: 'open',
             assignName: 'Kishan Kumar',
-            time: '3:00 pm',
+            time: '03:00',
+            date:'12-05-2023'
         },
         {
             name: 'Rakesh singh',
             ContactNo: '8867656532',
-            Time: '3.00pm',
+            Time: '3:00pm',
             location: 'R R Nagar, 2nd Phase Bangalore Karnataka',
             typeofLead: 'Mahendra, YUVO 415 D,',
             status: 'open',
             assignName: 'Kishan Kumar',
-            time: '3:00 pm',
+            time: '03:00',
+            date:'12-05-2023'
         },
         {
             name: 'Rakesh singh',
             ContactNo: '8865636532',
-            Time: '3.00pm',
+            Time: '03:00',
             location: 'R R Nagar, Bangalore',
             typeofLead: 'R R Nagar, 2nd Phase Bangalore Karnataka',
             status: 'copleated',
             assignName: 'Kishan Kumar',
             time: '3:00 pm',
+            date:'12-05-2023'
         },
         {
             name: 'Rakesh singh',
             ContactNo: '8862656532',
-            Time: '3.00pm',
+            Time: '03:00',
             location: 'R R Nagar, Bangalore',
             typeofLead: 'Mahendra, YUVO 415 D,',
             status: 'open',
             assignName: 'Kishan Kumar',
             time: '3:00 pm',
+            date:'12-05-2023'
         },
     ]
 
     const columns = [
         {
             Header: 'Name',
-            accessor: 'name',
+            accessor: 'assigneeUserName',
 
         },
         {
             Header: 'Contact No',
             accessor: 'ContactNo',
+
+        },
+        {
+            Header: 'Time',
+            accessor: 'appointmentDate',
+            Cell: (props) => {
+                let timeTake = props.cell.row.original.appointmentDate
+                let hour = new Date(timeTake).getHours();
+                let minuts = new Date(timeTake).getMinutes();
+                return <div><p>{tConvert(`${hour=='00'?'00':hour}:${minuts}`)}</p></div>
+            }
 
         },
         {
@@ -95,25 +132,22 @@ const MyAppoinment = () => {
         },
         {
             Header: 'Type of Lead',
-            accessor: 'typeofLead',
+            accessor: '',
 
         },
         {
             Header: 'status',
             accessor: 'status',
             Cell:(props)=>{
-                // {props.cell.row.original.name}
+                // {props.cell.row.id}
                return <div className='apoointTable_status'>
-                <div className='appStatus_head' onClick={()=>{setStatusDropdown({open:true, id:props.cell.row.original.ContactNo})}}> <p>{props.cell.row.original.status}</p><IoMdArrowDropdown /></div>
-                {statusdropdown.open &&statusdropdown.id === props.cell.row.original.ContactNo?
-                <div className='statusDropdown_tabel' onClick={()=>{setStatusDropdown({open:false, id:''})}}>
-                    <p>open</p>
-                    <p>confirm</p>
-                    <p>compleate</p>
-                </div>:
-                null
-
-                }
+               <select className='statusDropdown_tabel' value={props.cell.row.original.status} onChange={(e)=>onChangeTableStatus(props.cell.row.original, e, props.cell.row.id)}>
+                    <option  value='Open'>Open</option>
+                    <option value='Completed'>Completed</option>
+                    <option value='NotInterested'>NotInterested</option>
+                    <option value='CancelledBySeller'>CancelledBySeller</option>
+                    <option value='CancelledByBuyer'>CancelledByBuyer</option>
+                </select>
                </div>
             }
 
@@ -122,15 +156,14 @@ const MyAppoinment = () => {
             Header: '.',
             accessor: '',
             Cell: (props) => {
-                // {props.cell.row.original.name}
-                return <div className='apooinTable_icon' onClick={() => { submitEditAppointment(); }}><MdEdit /></div>
+                return <div className='apooinTable_icon' onClick={() => {setEditObj(props.cell.row.original); setAddAppoinMent(true) }}><MdEdit /></div>
             }
         },
         {
             Header: ',',
             accessor: '',
             Cell: (props) => {
-                return <div className='apooinTable_icon' onClick={() => { setDeleteConfirm({ ...deleteConfirm, open: true }); }}><MdDelete /></div>
+                return <div className='apooinTable_icon' onClick={() => { setDeleteConfirm({ open: true, id:props.cell.row.original.id }); }}><MdDelete /></div>
             }
         },
 
@@ -140,17 +173,26 @@ const MyAppoinment = () => {
     const columns1 = [
         {
             Header: 'Name',
-            accessor: 'name',
+            accessor: 'buyerName',
 
         },
         {
             Header: 'Contact No',
             accessor: 'ContactNo',
+            // Cell: (props) => {
+            //     return <div className='' style={{ cursor: 'pointer' }} onClick={() => { setShowContact(true); setContNumLead(props.cell.row.original.ContactNo) }}> <p>{showContact && contNumLead === props.cell.row.original.ContactNo ? props.cell.row.original.ContactNo : '**********'}</p></div>
+            // }
+        },
+        {
+            Header: 'Time',
+            accessor: 'appointmentDate',
             Cell: (props) => {
-                // {props.cell.row.original.name}
-
-                return <div className='' style={{ cursor: 'pointer' }} onClick={() => { setShowContact(true); setContNumLead(props.cell.row.original.ContactNo) }}> <p>{showContact && contNumLead === props.cell.row.original.ContactNo ? props.cell.row.original.ContactNo : '**********'}</p></div>
+                let timeTake = props.cell.row.original.appointmentDate
+                let hour = new Date(timeTake).getHours();
+                let minuts = new Date(timeTake).getMinutes();
+                return <div><p>{hour == '00'?'00':hour}:{minuts}</p></div>
             }
+
         },
         {
             Header: 'Location',
@@ -199,11 +241,11 @@ const MyAppoinment = () => {
         {
             Header: 'Contact No',
             accessor: 'ContactNo',
-            Cell: (props) => {
-                // {props.cell.row.original.name}
+            // Cell: (props) => {
+              
 
-                return <div className='' style={{ cursor: 'pointer' }} onClick={() => { setShowContact(true); setContNumLead(props.cell.row.original.ContactNo) }}> <p>{showContact && contNumLead === props.cell.row.original.ContactNo ? props.cell.row.original.ContactNo : '**********'}</p></div>
-            }
+            //     return <div className='' style={{ cursor: 'pointer' }} onClick={() => { setShowContact(true); setContNumLead(props.cell.row.original.ContactNo) }}> <p>{showContact && contNumLead === props.cell.row.original.ContactNo ? props.cell.row.original.ContactNo : '**********'}</p></div>
+            // }
         },
         {
             Header: 'Location',
@@ -290,47 +332,48 @@ const MyAppoinment = () => {
     ]
 
 
-    const fetchAppointmentList = ()=>{
-        getCurrentSession((success, jwtToken)=>{
-            const url = `${API_PUBLIC_HOST}/lead/listAppointments`;
-            var data = {
-                buyerUserId: "string",
-                endDate: "2023-02-09T12:14:39.442Z",
-                listingId: "string",
-                sellerUserId: "string",
-                startDate: "2023-02-09T12:14:39.442Z",
-                status: "Open"
-              };
-                axios({
-                    method: 'post',
-                    url: url,
-                    data: data,
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                       Authorization: jwtToken,
-                    },
-                  })
-                    .then((response) => {
-                        setAppontList(response.data.response.leads)
-                        console.log(response.data.response.leads)
-                    })
-                    .catch((error) => {
-                      console.log(error)
-                    }); 
-        })
-    }
+    // const fetchAppointmentList = ()=>{
+    //     getCurrentSession((success, jwtToken)=>{
+    //         const url = `${API_PUBLIC_HOST}/lead/listAppointments`;
+    //         var data = {
+    //             buyerUserId: "string",
+    //             endDate: "2023-02-09T12:14:39.442Z",
+    //             listingId: "string",
+    //             sellerUserId: "string",
+    //             startDate: "2023-02-09T12:14:39.442Z",
+    //             status: "Open"
+    //           };
+    //             axios({
+    //                 method: 'post',
+    //                 url: url,
+    //                 data: data,
+    //                 headers: {
+    //                   Accept: "application/json",
+    //                   "Content-Type": "application/json",
+    //                    Authorization: jwtToken,
+    //                 },
+    //               })
+    //                 .then((response) => {
+    //                     setAppontList(response.data.response.leads)
+    //                     console.log(response.data.response.leads)
+    //                 })
+    //                 .catch((error) => {
+    //                   console.log(error)
+    //                 }); 
+    //     })
+    // }
 
     const listAppointWithMetaData = ()=>{
         getCurrentSession((success, jwtToken)=>{
+            console.log(success, 'success')
             const url = `${API_PUBLIC_HOST}/lead/listAppointmentsWithMetadata`;
             var data = {
-                buyerUserId: "string",
-                endDate: "2023-02-09T12:23:13.173Z",
-                listingId: "string",
-                sellerUserId: "string",
-                startDate: "2023-02-09T12:23:13.173Z",
-                status: "Open"
+                // buyerUserId: "string",
+                // endDate: "",
+                // listingId: "",
+                sellerUserId: "",
+                // startDate: "",
+                // status: "Open"
               };
                 axios({
                     method: 'post',
@@ -343,8 +386,8 @@ const MyAppoinment = () => {
                     },
                   })
                     .then((response) => {
-                        setAppontList(response.data.response.leads)
-                        console.log(response.data.response.leads)
+                        console.log(response.data);
+                        setAppontList(response.data.response.appointments)
                     })
                     .catch((error) => {
                       console.log(error)
@@ -352,47 +395,46 @@ const MyAppoinment = () => {
         })
     }
 
-    const changeStatusOfLeads = (str='string', val="Active")=>{
-        getCurrentSession((success, jwtToken)=>{
-            const url = `${API_PUBLIC_HOST}/lead/changeStatusOfLead?${str}&${val}`
-            var data = {
-                buyerUserId: "string",
-                endDate: "2023-02-09T12:23:13.173Z",
-                listingId: "string",
-                sellerUserId: "string",
-                startDate: "2023-02-09T12:23:13.173Z",
-                status: "Open"
-              };
-                axios({
-                    method: 'get',
-                    url: url,
-                    // data: data,
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                       Authorization: jwtToken,
-                    },
-                  })
-                    .then((response) => {
-                        // setAppontList(response.data.response.leads)
-                        console.log(response.data.response.leads)
-                    })
-                    .catch((error) => {
-                      console.log(error)
-                    }); 
-        })
-    }
+    // const changeStatusOfLeads = (str='string', val="Active")=>{
+    //     getCurrentSession((success, jwtToken)=>{
+    //         const url = `${API_PUBLIC_HOST}/lead/changeStatusOfLead?${str}&${val}`
+    //         var data = {
+    //             buyerUserId: "string",
+    //             endDate: "2023-02-09T12:23:13.173Z",
+    //             listingId: "string",
+    //             sellerUserId: "string",
+    //             startDate: "2023-02-09T12:23:13.173Z",
+    //             status: "Open"
+    //           };
+    //             axios({
+    //                 method: 'get',
+    //                 url: url,
+    //                 // data: data,
+    //                 headers: {
+    //                   Accept: "application/json",
+    //                   "Content-Type": "application/json",
+    //                    Authorization: jwtToken,
+    //                 },
+    //               })
+    //                 .then((response) => {
+    //                     // setAppontList(response.data.response.leads)
+    //                     console.log(response.data.response.leads)
+    //                 })
+    //                 .catch((error) => {
+    //                   console.log(error)
+    //                 }); 
+    //     })
+    // }
 
     useEffect(()=>{
-        fetchAppointmentList();
+        // fetchAppointmentList();
         listAppointWithMetaData();
-        changeStatusOfLeads();
+        // changeStatusOfLeads();
     }, [])
 
-    const deleteAppointMent = (ldId)=>{
-    
+    const deleteAppointMent = ()=>{
         getCurrentSession((success, jwtToken)=>{
-            const url = `${API_PUBLIC_HOST}/lead/listAppointmentsWithMetadata?${ldId}`;
+            const url = `${API_PUBLIC_HOST}/lead/deleteAppointment?appointmentId=${deleteConfirm.id}`;
 
                 axios({
                     method: 'delete',
@@ -404,8 +446,8 @@ const MyAppoinment = () => {
                     },
                   })
                     .then((response) => {
-                        // setAppontList(response.data.response.leads)
-                        console.log(response.data.response.leads)
+                        console.log(response.data.response.leads);
+                        setDeleteConfirm({open:false, id:''});
                     })
                     .catch((error) => {
                       console.log(error)
@@ -413,9 +455,6 @@ const MyAppoinment = () => {
         })
     }
 
-    const submitEditAppointment = () => {
-
-    }
 
 
 
@@ -483,7 +522,7 @@ const MyAppoinment = () => {
                                 <h4>Today's <span>{`(${tableData.length})`}</span></h4>
                                 <div className='appont_todayTable'>
                                     <ReactTable
-                                        data={tableData}
+                                        data={appomtList}
                                         columns={masterAppointment === 'master' ? columnsm1 : columns}
                                     />
                                 </div>
@@ -533,17 +572,21 @@ const MyAppoinment = () => {
                 </div>
             </div>
             {
-                addAppoinMent ? <AddAppointment setAppointmentForm={setAddAppoinMent} /> : null
+                addAppoinMent ? <AddAppointment setAppointmentForm={setAddAppoinMent} editForm='editForm'  editObj={editObj} /> : null
             }
             {
                 deleteConfirm.open ?
-                    <div className='editConfirm_box'>
-                        <div className='confilrmBox'>
-                            <h5>Are you sure you want to delete this lead</h5>
-                            <p>This Lead will delete permanently. you cannot undo this action</p>
+                    <div className='deleteModal'>
+                        <div className='deleteconfilrmBox'>
+                            <h5> <MdError  className='deleteBoxIcon'/> DELETE APPOINTMENT</h5>
+                            <div className='deletBoxContent'>
+                            <p className=''>Are you sure you want to delete oppointments?</p>
+                            <p>to <span>Kishan Kumar</span></p>
+                            <p>Sugarcane harvesting for, <span>10 acres</span></p>
                             <div className='deleteConfirm_btns'>
-                                <button className='delCancel' onClick={() => setDeleteConfirm({ ...deleteConfirm, open: false })}>Cancel</button>
-                                <button className='delOk' onClick={()=>deleteAppointMent('string')}>Ok</button>
+                                <button className='delCancel' onClick={() => setDeleteConfirm({ open: false, id:'' })}> <MdArrowBackIosNew />  BACK</button>
+                                <button className='delOk' onClick={()=>deleteAppointMent()}><FaCalendarDay className='deleteBoxIcon'/> DELETE APPOINTMENT</button>
+                            </div>
                             </div>
                         </div>
                     </div>

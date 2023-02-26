@@ -163,8 +163,8 @@
         font-weight: 500;
       }
       
-/*  edit confirm box   */
-.editConfirm_box{
+/*  delete confirm box   */
+.deleteModal{
   position: fixed;
  top: 0;
  left: 0;
@@ -176,50 +176,78 @@
  height: 100vh;
 }
 
-.confilrmBox{
-  padding: 15px 20px 20px 20px;
-  background-color: white;
+.deleteconfilrmBox{
+  background-color: #128454;
   transition: 0.3s ease;
-  width: 35%;
+  width: 30%;
+  border-radius: 10px;
 }
-.confilrmBox>h5{
+.deleteconfilrmBox>h5{
   font-size: 17px;
   font-weight: 600;
+  padding: 15px 10px 10px 10px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
   
 }
-.confilrmBox>p{
-  margin: 15px 0;
-  font-size: 14px;
-  font-weight: 500;
+
+.deletBoxContent{
+  background-color: white;
+  border-radius: 10px;
+  padding:20px 25px;
+  text-align: start;
 }
+.deletBoxContent>p{
+  font-size: 13px;
+  font-weight: 500;
+  color: gray;
+}
+.deletBoxContent>p>span{
+  font-weight: 700;
+  color: #000000;
+}
+
 .deleteConfirm_btns{
   display: flex;
   align-items: center;
-  gap: 10%;
+  gap: 25px;
   width: fit-content;
-  margin: auto;
-  margin-top: 50px;
+  margin-left: auto;
+  margin-top: 40px;
 }
 
 .deleteConfirm_btns .delCancel{
-  border: 1px solid black;
+  border: 1px solid rgb(86, 86, 86);
+  background-color: white;
   color: black;
   font-size: 13px;
-  font-weight: 600;
-  padding: 7px 15px;
-  width: 110px;
-  border-radius: 5px;
+  font-weight: 700;
+  padding: 7px 20px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .deleteConfirm_btns .delOk{
-  background-color: red;
+  background-color: #128454;
   color: white;
   font-size: 13px;
   font-weight: 600;
   padding: 7px 15px;
-  width: 110px;
-  border-radius: 5px;
-  border: 1px solid black;
+  border-radius: 18px;
+  border: 1px solid #128454;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+.deleteBoxIcon{
+  color:white;
+}
+
+
 .apoointTable_status{
   position: relative;
 }
@@ -230,26 +258,21 @@
   cursor: pointer;
 }
 .statusDropdown_tabel{
-  position: absolute;
-  top: 100%;
-  left: 0;
   width: fit-content;
-  /* padding: 1 0; */
-  text-align: center;
-  border: 1px solid gray;
-  border-radius: 5px;
-  background-color: white;
+  padding: 1 0;
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
   z-index: 999;
-  min-width: 130px;
+  min-width: 80px;
+  cursor: pointer;
 
 }
-.statusDropdown_tabel>p{
-  padding: 10px 20px;
+.statusDropdown_tabel>option{
+  padding: 6px 20px !important;
   font-size: 12px;
   font-weight: 500;
   cursor:pointer;
   margin-bottom: 5px;
-}
-.statusDropdown_tabel>p:hover{
-  background-color: rgb(232, 232, 232);
+  cursor: pointer;
+
 }

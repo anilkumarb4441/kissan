@@ -178,6 +178,7 @@ text-align: start;
 .leadVehicle_info>div:first-child>img{
 width: 100%;
 border-radius: 7px;
+height: 80px;
 
 }
 
@@ -263,7 +264,7 @@ position: relative;
   width: 100%;
   background: white;
 border-radius: 12px;
-padding: 10px 25px;
+padding: 25px 25px;
 }
 .form_input_holder{
   display: flex;
