@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import axios from 'axios'
 import { getCurrentSession } from "../../endpoints/amplify/auth"
@@ -9,9 +9,15 @@ import TimePicker1 from 'react-time-picker';
 
 //css
 import './addAppoinment.css'
+import CustomCalender from '../calender/calender';
+
+export const DateObjectToString = (dateObj) => {
+    let date = new Date(dateObj.getTime() + 19800000).toISOString().split("T")[0];
+    return date;
+      };
 
 
-const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listLeadsArry, appointmentState }) => {
+const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listLeadsArry, listAppointWithMetaData, addAppObj }) => {
 
     const [formData, setFormData] = useState({
         name: '',
@@ -20,39 +26,58 @@ const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listL
         location: '',
         typeOfLead: '',
     })
+
+    function tConvert(timeString) {
+        const [hourString, minute] = timeString.split(":");
+        const hour = +hourString % 24;
+        return (hour % 12 || 12) + ":" + minute +  (hour < 12 ? "AM" : "PM");
+    }
+
     const [editFormData, setEditFormData] = useState({
         date: editObj.appointmentDate,
         location: editObj.location,
+        time:tTime,
+    
     })
-    const [time, setTime] = useState('10:45');
+
+    var timeTake = editObj.appointmentDate;
+    var hour = new Date(timeTake).getHours();
+    var minuts = new Date(timeTake).getMinutes();
+    var tTime=`${tConvert(`${hour}:${minuts}`)}`
+    console.log(tTime, 'tTimetTime')
+
+    useEffect(()=>{
+    var tTime=`${tConvert(`${hour}:${minuts}`)}`
+        setEditFormData({...editFormData, time:tTime})
+      },[])
+      console.log(editFormData.time, 'editFormDataeditFormData')
+   
     const [succsMsg, setSuccsMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [singleDate, setSingleDate] = useState(editForm === 'editForm'? new Date(editObj.appointmentDate) :'');
 
+    let dailyDate = singleDate !== '' ? DateObjectToString(singleDate) : ""
 
-    console.log(editObj, '')
+// console.log(editFormData.time, 'ggggg');
     const onChangeForm = (e) => {
         editForm === 'editForm' ?
             setEditFormData({ ...editFormData, [e.target.name]: e.target.value })
             :
             setFormData({ ...formData, [e.target.name]: e.target.value })
     }
-
+  
+     
+    
+console.log(formData.date, 'formData.date')
     const onSubmitAppoinMent = (e) => {
         e.preventDefault();
         getCurrentSession((success, jwtToken) => {
             const url = `${API_PUBLIC_HOST}/lead/addAppointment`;
             var data = {
-                appointmentDate: new Date(formData.date),
-                buyerId: listLeadsArry.createdBy,
-                buyerName: listLeadsArry.creatorUserName,
-                comments: "",
-                id: "",
-                listId: listLeadsArry.listId,
+                appointmentDate:`${dailyDate}T${formData.time}`, 
+                // 2023-02-24T08:45:55
+                listId: listLeadsArry[0].listId,
                 location: formData.location,
-                new: true,
-                sellerId: listLeadsArry.listId,
-                sellerName: listLeadsArry.creatorUserName,
-                status: "Open"
             }
 
             axios({
@@ -80,22 +105,17 @@ const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listL
                 });
         })
     }
-
+    
     const updateAppointment = (e) => {
         e.preventDefault();
+        let timeAndDate  = `${dailyDate}T${editFormData.time}:00`
         getCurrentSession((success, jwtToken) => {
             const url = `${API_PUBLIC_HOST}/lead/updateAppointment`;
             var data = {
-                appointmentDate: editFormData.date,
-                buyerId: "string",
-                buyerName: "string",
-                comments: "string",
+                appointmentDate: timeAndDate,
+                comments: "",
                 id: editObj.id,
-                listId: editObj.id,
                 location: editFormData.location,
-                new: true,
-                sellerId: "string",
-                sellerName: "string",
                 status: editObj.status,
             }
 
@@ -115,6 +135,7 @@ const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listL
                     setTimeout(() => {
                         setSuccsMsg('');
                         setAppointmentForm(false);
+                        listAppointWithMetaData();
                     }, 3000)
                 })
                 .catch((error) => {
@@ -128,25 +149,37 @@ const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listL
         <div className='add_appointmemt_Container'>
             <div className='appointment_main'>
                 <div className='appointment_form_close'><AiOutlineCloseCircle onClick={() => setAppointmentForm(false)} /></div>
-                <h5>ADD APPOINTMENTS</h5>
+                <h5>{editForm === 'editForm' ? 'UPDATE APPOINTMENT' :'ADD APPOINTMENTS'}</h5>
                 {succsMsg === '' ? <div className='appon_form'>
                     <form>
+                    {/* <div className='form_input_holder'>
+                            <label>Type of Lead:</label>
+                            <input type='text' placeholder='Enter Brand & model' readOnly name='typeOfLead' value={editForm === 'editForm' ? editObj.typeofLead : addAppObj.leadType} onChange={(e) => onChangeForm(e)} />
+                        </div> */}
                         <div className='form_input_holder'>
                             <label>Name:</label>
-                            <input type='text' placeholder='Enter Name' name='name' readOnly={editForm === 'editForm' ? true : false} value={editForm === 'editForm' ? editObj.name : formData.name} onChange={(e) => onChangeForm(e)} />
+                            <input type='text' placeholder='Enter Name' name='name' readOnly value={editForm === 'editForm' ? editObj.name : listLeadsArry[0].name} onChange={(e) => onChangeForm(e)} />
                         </div>
-                        <div className='form_input_holder'>
-                            <label>Type of Lead:</label>
-                            <input type='text' placeholder='Enter Brand & model' readOnly={editForm === 'editForm' ? true : false} name='typeOfLead' value={editForm === 'editForm' ? editObj.typeofLead : formData.typeOfLead} onChange={(e) => onChangeForm(e)} />
-                        </div>
-                        <div className='form_input_holder'>
+                       
+                        {/* <div className='form_input_holder'>
                             <label>Chooser Date:</label>
                             <input type='date' placeholder='Choose date' name='date' value={editForm === 'editForm' ? editFormData.date : formData.date} onChange={(e) => onChangeForm(e)} />
+                        </div> */}
+                        {/* <input type="time" /> */}
 
-                        </div>
+                        <div className='form_input_holder'>
+                            <label>Chooser Date:</label>
+                        <CustomCalender
+                      range={singleDate}
+                      onChange={(arr) => {
+                      setSingleDate(arr)
+                      }} />
+                      </div>
                         <div className='form_input_holder'>
                             <label>Time:</label>
-                            <TimePicker1 value={editForm === 'editForm' ? time : formData.time} onChange={(e) => setTime(e)} clearIcon={false} />
+                            <input type="time" name='time' value={editForm === 'editForm' ? editFormData.time : formData.time} onChange={(e) => onChangeForm(e)}/>
+
+                            {/* <TimePicker1 value={editForm === 'editForm' ? time : formData.time} onChange={(e) => setTime(e)} clearIcon={false} /> */}
 
                         </div>
                         <div className='form_input_holder'>
@@ -164,6 +197,7 @@ const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listL
                     <p className='appoinntMent_sccMsg'>{succsMsg} </p>
                 }
             </div>
+            
 
         </div>
     );

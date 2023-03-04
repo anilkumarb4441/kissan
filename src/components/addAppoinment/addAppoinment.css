@@ -111,3 +111,15 @@
     padding: 10%;
     background-color: white;
   }
+
+  /* calender ========================================*/
+
+ .appon_form .custom-date-range-picker{
+    width:48%;
+  }
+  .appon_form .custom-date-range-picker .date-range-header{
+    justify-content: space-between;
+  }
+  .appon_form .custom-date-range-picker .date-range-header>p{
+    margin:0 ;
+  }

@@ -1,7 +1,6 @@
 import React,{useState} from 'react'
-
 //css
-import "./rangeCalender.css"
+import "./calender.css"
 import "react-calendar/dist/Calendar.css";
 
 //components
@@ -15,17 +14,18 @@ import {BsCalendar} from "react-icons/bs"
 
 
 export const DateObjectToString = (dateObj) => {
-let date = new Date(dateObj.getTime() + 19800000).toISOString().split("T")[0];
-return date;
-  };
+    let date = new Date(dateObj.getTime() + 19800000).toISOString().split("T")[0];
+    return date;
+      };
+    
+    
 
 
-
-function CustomDateRange({onChange,range}) {
+function CustomCalender({onChange,range}) {
     const [show,toggleCalendar] = useState(false);
-    const [value,setValue] = useState()
+    const [value,setValue] = useState();
     const reset =()=>{
-        onChange(null)
+        onChange(new Date())
         setValue()
     }
     return (
@@ -35,19 +35,20 @@ function CustomDateRange({onChange,range}) {
                  { range?
                  <>
                  <GrPowerReset onClick = {()=>reset()}/>
-                 <p>{DateObjectToString(range[0])} to {DateObjectToString(range[1])}</p></>:<p>Select Date</p>}
+                 <p>{`${new Date(range).getDate() < 10 ?'0':''}${new Date(range).getDate()}-${new Date(range).getMonth()+1 < 10 ?'0':''}${new Date(range).getMonth()+1}-${new Date(range).getFullYear()}`}</p></>:<p>Select Date</p>
+                 }
                     <BsCalendar onClick = {()=>toggleCalendar(show=>!show)} /> 
             </div>
            {show &&
            <div className = "date-range-body">
                <Calendar
-            selectRange = {true}
+            selectRange = {false}
             value = {value}
             onChange = {setValue}
+            minDate  = {new Date()}
             // maxDate  = {new Date()}
-            minDate = {new Date()}
-            maxDetail = {'month'}
-            returnValue = {'range'}                          
+            // maxDetail = {'month'}
+            // returnValue = {'range'}
             prevLabel = {<IoIosArrowBack/>}
             nextLabel = {<IoIosArrowForward/>}
             prev2Label = {<HiChevronDoubleLeft/>}
@@ -63,4 +64,4 @@ function CustomDateRange({onChange,range}) {
     )
 }
 
-export default CustomDateRange
+export default CustomCalender;

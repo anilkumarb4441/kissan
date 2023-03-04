@@ -191,7 +191,6 @@
   align-items: center;
   gap: 10px;
   justify-content: center;
-  
 }
 
 .deletBoxContent{
@@ -201,9 +200,10 @@
   text-align: start;
 }
 .deletBoxContent>p{
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   color: gray;
+  padding: 15px 0;
 }
 .deletBoxContent>p>span{
   font-weight: 700;
@@ -275,4 +275,90 @@
   margin-bottom: 5px;
   cursor: pointer;
 
+}
+
+.deleteBoxafetrOK{
+  width: 100%;
+  padding: 5%;
+  text-align: center;
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.deleteBoxafetrOK>p{
+    color: #128454;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+.deleteBoxafetrOK>button{
+  width: 60px;
+  color: #128454;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid rgb(205, 205, 205);
+  border-radius: 5px;
+}
+
+/* sort popup ===========================================================================*/
+
+.sortOpt_container{
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #00000047;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sortOpt_container .Sort_Container{
+  width: 30%;
+ background-color: white;
+ border-radius: 10px;
+ padding: 10px 0;
+ position: relative;
+}
+.sortCloseIcon{
+  position: absolute;
+  top: -25px;
+  right: -25px;
+  width: 30px;
+}
+.sortCloseIcon svg{
+  font-size: 25px;
+  color: white;
+  cursor: pointer;
+}
+.Sort_Container>.sortSelect{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border-bottom: 1px solid rgba(206, 206, 206, 0.775);
+  padding: 0 15px;
+}
+.Sort_Container>.sortSelect:last-child{
+  border-bottom: none;
+
+}
+.Sort_Container .compleateIcon{
+  width: 20px;
+}
+.compleateIcon svg{
+  font-size: 20px;
+  color: green;
+}
+.Sort_Container>.sortSelect>p{
+  margin: 7px 0;
+  font-size: 14px;
+  font-family: 'Poppin';
+  font-weight: 500;
+  padding: 5px 0;
+  cursor: pointer;
+}
+.Sort_Container>.sortSelect:hover {
+background-color: rgba(238, 238, 238, 0.621);
 }

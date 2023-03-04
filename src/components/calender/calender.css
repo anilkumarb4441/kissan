@@ -2,17 +2,18 @@
     position: relative;
 }
 
-.date-range-body{
+.date-range-body {
     position: absolute;
     width: 320px;
     right: 0;
-    top: 100%;
+    top: 122%;
     z-index: 222;
     background: var(--white);
     padding: 5px 10px;
     border-radius: 10px;
     border: 1px solid #70707045;
     background-color: white;
+
 }
 
 .date-range-header{
@@ -46,6 +47,8 @@
     padding: 6px 0px;
     justify-content: flex-end;
     gap: 20px;
+    background-color: white;
+
 }
 
 .date-range-footer>button{

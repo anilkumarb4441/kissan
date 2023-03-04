@@ -89,7 +89,9 @@
     transition: 0.2s ease;
   }
   .leadsExchange_Icon{
-    font-size: 12px;
+    font-size: 13px;
+margin: 0 5px;
+    cursor: pointer;
     transform: rotate(90deg);
     color: rgba(0, 0, 0, 0.54);
   }
@@ -108,10 +110,11 @@
     border-radius: 12px;
     border: 1px solid #E5E5E5;
     box-shadow: 0px 2.02186px 2.02186px rgba(0, 0, 0, 0.05);
-    margin-bottom: 80px;
+    margin-bottom: 180px;
     padding-top:5px ;
     position: relative;
     background-color: white;
+    padding-bottom: 25px;
   }
   .lead_info{
     display: flex;
@@ -156,17 +159,28 @@
   font-size: 14px;
   color: #747474;
 }
+.leadVehicle_parent{
+  background-color:#F1F1F1;
+  border-radius: 12px;
+  width: 100%;
+  position: absolute;
+  top: 80%;
+  height: 100%;
+
+
+}
 .leadVehicle_info{
   width: 100%;
   display: flex;
-  align-items:flex-start;
+  /* align-items:flex-start; */
   border-radius: 12px;
-  background-color:#F1F1F1;
+  /* background-color:#F1F1F1; */
   padding: 10px;
   gap: 15px;
   /* height:100%; */
+  text-align: left;
   z-index: 99;
-  position: relative;
+  /* position: absolute; */
 }
 .leadVehicle_info>div:first-child{
   width: 35%;
@@ -198,7 +212,7 @@ height: 80px;
 }
 .leads_call{
   position: absolute;
-  top: 95%;
+  top: 80%;
   left: 0;
   right: 0;
   width: 100%;
@@ -332,4 +346,72 @@ padding: 25px 25px;
 }
 .masterLead_det>span{
   font-weight: 700;
+}
+
+.recordsNotFound{
+  width: 100%;
+  margin: 5% auto;
+  text-align: center;
+}
+
+/* sort popup ===========================================================================*/
+
+.sortOpt_container{
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #00000047;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sortOpt_container .Sort_Container{
+  width: 30%;
+ background-color: white;
+ border-radius: 10px;
+ padding: 10px 0;
+ position: relative;
+}
+.sortCloseIcon{
+  position: absolute;
+  top: -25px;
+  right: -25px;
+  width: 30px;
+}
+.sortCloseIcon svg{
+  font-size: 25px;
+  color: white;
+  cursor: pointer;
+}
+.Sort_Container>.sortSelect{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border-bottom: 1px solid rgba(206, 206, 206, 0.775);
+  padding: 0 15px;
+}
+.Sort_Container>.sortSelect:last-child{
+  border-bottom: none;
+
+}
+.Sort_Container .compleateIcon{
+  width: 20px;
+}
+.compleateIcon svg{
+  font-size: 20px;
+  color: green;
+}
+.Sort_Container>.sortSelect>p{
+  margin: 7px 0;
+  font-size: 14px;
+  font-family: 'Poppin';
+  font-weight: 500;
+  padding: 5px 0;
+  cursor: pointer;
+}
+.Sort_Container>.sortSelect:hover {
+background-color: rgba(238, 238, 238, 0.621);
 }
