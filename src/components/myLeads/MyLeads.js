@@ -248,14 +248,15 @@ const MyLeads = () => {
                                 </div>
                             }
                         </div>
-                    </div>
-                    <Pagination
+                        <Pagination
                     className="pagination-bar"
                      currentPage={currentPage}
                      totalCount={20}
                      pageSize={pageSize}
                      onPageChange={setCurrentPage}
       />
+                    </div>
+                   
                 </div>
                 <div class="top_banner_img col-md-10 mx-auto">
                     <img class="" alt="top_banner_img" src={topBanner} />

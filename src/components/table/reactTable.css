@@ -27,6 +27,7 @@
     padding:10px 25px;
     color: rgba(34, 34, 34, 0.5);
     text-align: start;
+    font-family: 'Poppins';
 
 
 }
@@ -36,6 +37,9 @@
     font-size: 13px;
     padding: 8px 20px 8px 25px;
     color: #666666;
+    font-family: 'Poppins';
+    font-weight: 400;
+
 
 }
 .table_list_wraper tbody tr td:first-child{

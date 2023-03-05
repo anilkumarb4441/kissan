@@ -169,13 +169,13 @@ const MyAppoinment = () => {
             const url = `${API_PUBLIC_HOST}/lead/listAppointmentsWithMetadata`;
             var data = {
                 sellerUserId: "",
-                assigneeUserId: user.phone_number,
-                startDate: setStartDate,
-                endDate: setEndDate,
-                page: {
-                    pageNumber: currentPage,
-                    pageSize: pageSize,
-                },
+                // assigneeUserId: user.phone_number,
+                // startDate: setStartDate,
+                // endDate: setEndDate,
+                // page: {
+                //     pageNumber: currentPage,
+                //     pageSize: pageSize,
+                // },
             };
             axios({
                 method: 'post',

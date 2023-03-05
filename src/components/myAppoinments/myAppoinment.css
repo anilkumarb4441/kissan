@@ -42,7 +42,9 @@
     .addAppoint_Btn:hover{
         color: #128454;
     }
-
+.appoinmentFilter p{
+  font-family: 'Poppins';
+}
     .appoinmentFilter .filterWraper{
         position:relative;
         background-color: white;
@@ -50,7 +52,7 @@
         border-radius: 1.25rem;
         font-weight: 300;
         color: #000000;
-        font-size: 12px;
+        font-size: 14px;
         padding: 5px 14px;
         width: 150px;
         cursor: pointer;
@@ -61,7 +63,7 @@
         justify-content: space-between;
       }
       .appoinmentFilter .filterWraper .filtrName>p{
-        font-size: 12px;
+        font-size: 14px;
         color: #111111;
         font-weight: 500;
       }
@@ -80,7 +82,7 @@
         rotate: 180deg;
       }
       .filterWraper .filter_dropdown>p{
-          font-size: 12px;
+          font-size: 14px;
           color: #111111;
           padding: 5px;
           font-weight: 500;
@@ -118,10 +120,13 @@
         font-size: 16px;
         font-weight: 600;
         text-align: start;
+        font-family: 'Poppins';
+
       }
 
       .addAppoin_table h4 span{
         color: #999999;
+        font-family: 'Poppins';
       }
       .addTable_appoint{
         width: 100%;
@@ -313,6 +318,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.sortOpt_container p{
+  font-family: 'Poppins';
 }
 .sortOpt_container .Sort_Container{
   width: 30%;
