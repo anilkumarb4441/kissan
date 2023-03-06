@@ -8,31 +8,25 @@
     border-collapse: collapse;
     border-spacing: 0px;
     width: 100%;
-    /* border: 1px solid rgb(212, 212, 212); */
     border-radius: 10px;
     background-color: rgba(219, 219, 219, 0.3);
     border-radius: 10px;
     padding: 20px 30px !important;
 
 }
-/* .table_list_wraper thead tr,
-.taxTable tbody tr{
-    padding: 2px 20px;
-} */
+
 
 .table_list_wraper thead tr th{
-    /* border: 1px solid gray; */
     font-size: 13px;
     font-weight: 600;
     padding:10px 25px;
     color: rgba(34, 34, 34, 0.5);
     text-align: start;
     font-family: 'Poppins';
-
+    min-width: 80px;
 
 }
  .table_list_wraper tbody tr td{
-    /* border: 1px solid gray; */
     text-align: start;
     font-size: 13px;
     padding: 8px 20px 8px 25px;

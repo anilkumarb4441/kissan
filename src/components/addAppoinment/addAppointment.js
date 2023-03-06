@@ -26,6 +26,7 @@ const AddAppointment = ({ setAppointmentForm, editObj = {}, editForm = '', listL
         location: '',
         typeOfLead: '',
     })
+    console.log(editObj, 'editObj')
 
     function tConvert(timeString) {
         const [hourString, minute] = timeString.split(":");
@@ -158,7 +159,7 @@ console.log(formData.date, 'formData.date')
                         </div> */}
                         <div className='form_input_holder'>
                             <label>Name:</label>
-                            <input type='text' placeholder='Enter Name' name='name' readOnly value={editForm === 'editForm' ? editObj.name : listLeadsArry[0].name} onChange={(e) => onChangeForm(e)} />
+                            <input type='text' placeholder='Enter Name' name='name' readOnly value={editForm === 'editForm' ? editObj.buyerName : listLeadsArry[0].name} onChange={(e) => onChangeForm(e)} />
                         </div>
                        
                         {/* <div className='form_input_holder'>
@@ -177,7 +178,7 @@ console.log(formData.date, 'formData.date')
                       </div>
                         <div className='form_input_holder'>
                             <label>Time:</label>
-                            <input type="time" name='time' value={editForm === 'editForm' ? editFormData.time : formData.time} onChange={(e) => onChangeForm(e)}/>
+                            <input type="time" name='time' placeholder='dddddddd' value={editForm === 'editForm' ? editFormData.time : formData.time} onChange={(e) => onChangeForm(e)}/>
 
                             {/* <TimePicker1 value={editForm === 'editForm' ? time : formData.time} onChange={(e) => setTime(e)} clearIcon={false} /> */}
 
