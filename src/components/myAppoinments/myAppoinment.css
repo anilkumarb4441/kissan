@@ -96,6 +96,7 @@
         color: rgba(0, 0, 0, 0.54);
         transition: 0.2s ease;
       }
+      
       .leadsExchange_Icon{
         font-size: 12px;
         transform: rotate(90deg);
@@ -107,6 +108,7 @@
         cursor: pointer;
         margin: 0;
       }
+
       .apooinTable_icon>svg{
         font-size: 15px;
       }
@@ -117,6 +119,7 @@
       .addAppoin_table{
         margin: 15px 0;
       }
+
       .addAppoin_table h4{
         font-size: 16px;
         font-weight: 600;
@@ -371,17 +374,31 @@
 .Sort_Container>.sortSelect:hover {
 background-color: rgba(238, 238, 238, 0.621);
 }
+.appont_todayTable .table_list_wraper thead tr th:nth-child(3),
+.appont_todayTable .table_list_wraper thead tr th:nth-child(6)
 
-.appont_todayTable .table_list_wraper thead tr th:last-child,
-.appont_todayTable .table_list_wraper thead tr th:nth-last-child(2)
 {
-    width: 50px !important;
-    padding: 8px 5px 8px 5px;
+  min-width:150px;
+}
+.appont_todayTable .table_list_wraper thead tr th:nth-child(8){
+  min-width:40px;
+  padding: 8px 5px;
+  margin: auto;
+  visibility: hidden;
+  
+
+}
+.appont_todayTable .table_list_wraper thead tr th:nth-child(9){
+  min-width:40px;
+  padding: 8px 5px;
+  margin:auto;
+  visibility: hidden;
+
 }
 
-.appont_todayTable .table_list_wraper tbody tr td:last-child,
-  .appont_todayTable .table_list_wraper tbody tr td:nth-last-child(2)
-  {
-      width: 50px !important;
-      padding: 8px 5px 8px 5px;
-  }
+
+.appont_todayTable .table_list_wraper tbody tr td:nth-child(9),
+.appont_todayTable .table_list_wraper tbody tr td:nth-child(8) {
+  min-width:40px;
+  padding: 8px 5px;
+}
