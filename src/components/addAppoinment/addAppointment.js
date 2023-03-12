@@ -77,7 +77,7 @@ console.log(formData.date, 'formData.date')
             var data = {
                 appointmentDate:`${dailyDate}T${formData.time}`, 
                 // 2023-02-24T08:45:55
-                listId: listLeadsArry[0].listId,
+                listId: addAppObj.listId,
                 location: formData.location,
             }
 
@@ -97,7 +97,6 @@ console.log(formData.date, 'formData.date')
                     setTimeout(() => {
                         setSuccsMsg('');
                         setAppointmentForm(false);
-                        window.location.href = '/sub/#/MyAppoinments'
                     }, 3000)
                 })
                 .catch((error) => {
@@ -153,13 +152,13 @@ console.log(formData.date, 'formData.date')
                 <h5>{editForm === 'editForm' ? 'UPDATE APPOINTMENT' :'ADD APPOINTMENTS'}</h5>
                 {succsMsg === '' ? <div className='appon_form'>
                     <form>
-                    {/* <div className='form_input_holder'>
+                    <div className='form_input_holder'>
                             <label>Type of Lead:</label>
                             <input type='text' placeholder='Enter Brand & model' readOnly name='typeOfLead' value={editForm === 'editForm' ? editObj.typeofLead : addAppObj.leadType} onChange={(e) => onChangeForm(e)} />
-                        </div> */}
+                        </div>
                         <div className='form_input_holder'>
                             <label>Name:</label>
-                            <input type='text' placeholder='Enter Name' name='name' readOnly value={editForm === 'editForm' ? editObj.buyerName : listLeadsArry[0].name} onChange={(e) => onChangeForm(e)} />
+                            <input type='text' placeholder='Enter Name' name='name' readOnly value={editForm === 'editForm' ? editObj.buyerName : addAppObj.name} onChange={(e) => onChangeForm(e)} />
                         </div>
                        
                         {/* <div className='form_input_holder'>

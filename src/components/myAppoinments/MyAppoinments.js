@@ -11,7 +11,7 @@ import { MdDelete } from 'react-icons/md'
 import { MdEdit, MdError, MdArrowBackIosNew } from 'react-icons/md'
 import {BiCheck} from 'react-icons/bi'
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-
+import {HiArrowRight} from 'react-icons/hi'
 
 //css 
 import './myAppoinment.css';
@@ -20,6 +20,7 @@ import ReactTable from '../table/ReactTable';
 //components
 import AddAppointment from '../addAppoinment/addAppointment';
 import Pagination from '../pagination/pagination';
+import { Link } from 'react-router-dom';
 
 export const DateObjectToString = (dateObj) => {
     let date = new Date(dateObj.getTime() + 19800000).toISOString().split("T")[0];
@@ -159,10 +160,6 @@ const MyAppoinment = () => {
         },
     ] 
 
-
-  
-
-
     const listAppointWithMetaData = () => {
         getCurrentSession((success, user, jwtToken) => {
             setAssignee(user.phone_number);
@@ -170,12 +167,12 @@ const MyAppoinment = () => {
             var data = {
                 sellerUserId: "",
                 // assigneeUserId: user.phone_number,
-                // startDate: setStartDate,
-                // endDate: setEndDate,
-                // page: {
-                //     pageNumber: currentPage,
-                //     pageSize: pageSize,
-                // },
+                startDate: '2022-01-01',
+                endDate: setEndDate,
+                page: {
+                    pageNumber: 1,
+                    pageSize: 10,
+                },
             };
             axios({
                 method: 'post',
@@ -268,7 +265,51 @@ const MyAppoinment = () => {
                                         <p onClick={() => { setDropdownOption('lastOneMonth') }}>last One Month</p>
                                     </div>}
                                 </div>
-                                <FaExchangeAlt className='leadsExchange_Icon' onClick={()=>setSort({...sort, show:true})}/>
+                                <Link to='/MyLeads' className='yLeadsLink'>
+                                <button className='Lds_pageRedirect'>
+                                       <span>My Leads</span>
+                                      <HiArrowRight />
+
+                                </button>
+                                    </Link>
+                                    <div className='Lead_controol_sort'>
+                                    <FaExchangeAlt className='leadsExchange_Icon' onClick={() => setSort({ ...sort, show: !sort.show })} />
+                                    {
+                                        sort.show ? 
+                                       
+
+                                            <div className='Sort_Container'>
+                                                {/* <div className="sortCloseIcon" onClick={() => setSort({ ...sort, show: false })}><AiOutlineCloseCircle /></div> */}
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'priceWise' })}>
+                                                    <div className='compleateIcon' >
+                                                        {sort.status === 'priceWise' && <BiCheck />}
+                                                    </div>
+                                                    <p>PRICE WISE</p>
+                                                </div>
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'loationWise' })}>
+                                                    <div className='compleateIcon'>
+                                                        {sort.status === 'loationWise' && <BiCheck />}
+                                                    </div>
+                                                    <p>LOCATION WISE</p>
+                                                </div>
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'stateWise' })}>
+                                                    <div className='compleateIcon'>
+                                                        {sort.status === 'stateWise' && <BiCheck />}
+                                                    </div>
+                                                    <p>STATE WISH</p>
+                                                </div>
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'latesOffer' })}>
+                                                    <div className='compleateIcon'>
+                                                        {sort.status === 'latesOffer' && <BiCheck />}
+                                                    </div>
+                                                    <p>LATEST OFFERS</p>
+                                                </div>
+                                            </div>
+                                        
+                                            : null
+                                    }
+                                    {/* <div className='sortOpt_container'></div> */}
+                                </div>
                             </div>
                         </div>
                         <div className='addAppoin_table'>
@@ -323,39 +364,7 @@ const MyAppoinment = () => {
                     </div>
                     : null
             }
-            {
-                sort.show?<div className='sortOpt_container'>
-                
-                    <div className='Sort_Container'>
-                    <div className="sortCloseIcon" onClick={()=>setSort({...sort, show:false})}><AiOutlineCloseCircle /></div>
-                    <div className='sortSelect'>
-                        <div className='compleateIcon' onClick={()=>setSort({show:false, status:'priceWise'})}>
-                        {sort.status=== 'priceWise' && <BiCheck />}
-                        </div>
-                        <p>PRICE WISE</p>
-                    </div>
-                    <div className='sortSelect' onClick={()=>setSort({show:false, status:'loationWise'})}>
-                        <div className='compleateIcon'>
-                         {sort.status=== 'loationWise' && <BiCheck />}
-                        </div>
-                        <p>LOCATION WISE</p>
-                    </div>
-                    <div className='sortSelect' onClick={()=>setSort({show:false, status:'stateWise'})}>
-                        <div className='compleateIcon'>
-                         {sort.status=== 'stateWise' && <BiCheck />}
-                        </div>
-                        <p>STATE WISH</p>
-                    </div>
-                    <div className='sortSelect' onClick={()=>setSort({show:false, status:'latesOffer'})}>
-                        <div className='compleateIcon'>
-                         {sort.status=== 'latesOffer' && <BiCheck />}
-                        </div>
-                        <p>LATEST OFFERS</p>
-                    </div>
-                    </div>
-                </div>
-                :null
-            }
+            
         </section>
     );
 };

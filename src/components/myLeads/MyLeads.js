@@ -10,15 +10,18 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { MdLocationPin } from 'react-icons/md';
 import { BsTelephoneFill } from 'react-icons/bs';
 import { IoMdCalendar } from 'react-icons/io';
-import {BiCheck} from 'react-icons/bi'
+import { BiCheck } from 'react-icons/bi'
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-
+import { HiArrowRight } from 'react-icons/hi'
+import { MdDelete } from 'react-icons/md'
+import { MdArrowBackIosNew } from 'react-icons/md'
 //css
 import './myLeads.css';
 import OfferZone from '../OfferZone';
 import AddAppointment from '../addAppoinment/addAppointment';
 import CustomDateRange from '../RangeCalender/rangeCalender';
 import Pagination from '../pagination/pagination';
+import { Link } from 'react-router-dom';
 
 const tractorImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3qEL8Y1O9QeC81SXnqtpKF8ed1ty7ewbwTw&usqp=CAU'
 
@@ -36,13 +39,15 @@ const MyLeads = () => {
     const [openPhoneNum, setOpenPhoneNum] = useState({ open: false, phoneNum: '' });
     const [leadType, setLeadType] = useState(''); //masterLead
     const [rangeDate, setRangeDate] = useState(null); //date range
-    const [currentPage,setCurrentPage] = useState(1)
-    const [pageSize,setPageSize] = useState(5)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [pageSize, setPageSize] = useState(5)
     const [totalCount, setTotalCount] = useState(20);
     const [phoneNuList, setPhoneNuList] = useState([]);
     const [addAppObj, setAddAppObj] = useState({})
     const [assignee, setAssignee] = useState('');
-    const [sort, setSort] = useState({show:false, status:''});
+    const [sort, setSort] = useState({ show: false, status: '' });
+    const [deleteLead, setDeleteLead] = useState({show:false, leadId:''});
+    
 
     //api state
     const [listLeads, setListLeads] = useState({});
@@ -52,7 +57,7 @@ const MyLeads = () => {
             let listMapObj = listLeads.listDetailMap[item.listId]
             let adressMapObj = listLeads.addressMap[listMapObj.address];
             return {
-                ...item, ...listMapObj, ...adressMapObj
+                ...item, ...listMapObj, ...adressMapObj, createdTime: item.createdDate, leadId:item.id
             }
         })
         return list;
@@ -85,7 +90,7 @@ const MyLeads = () => {
 
     const fetchListLeads = () => {
         getCurrentSession((success, user, jwtToken) => {
-            
+
             setAssignee(user.phone_number)
             const url = `${API_PUBLIC_HOST}/lead/listLeads`;
             var data = {
@@ -125,19 +130,49 @@ const MyLeads = () => {
         fetchListLeads();
     }, [dropdownOptions, currentPage, sort.status]);
 
+    const deleteListLead = () => {
+        getCurrentSession((success, user, jwtToken) => {
 
+            console.log(deleteLead.leadId, 'deleteLead.leadId')  
+            const url = `${API_PUBLIC_HOST}/lead/listLeads?leadId=${deleteLead.leadId}&status=Addressed`;
 
-    const hourCaluculation = (date) => {
-        let currentDate = new Date().getHours();
-        let newDate = new Date(date).getHours()
-        return currentDate - newDate
+            // const url= ''
+            axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: jwtToken,
+                },
+            })
+                .then((response) => {
+                   
+                    console.log(response.data.response);
+                    setTimeout(()=>{
+                        setDeleteLead({show:false, leadId:''});
+                        fetchListLeads();
+                    },4000)
+
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        })
     }
 
-    const onChangePhoneNumber = (asId)=>{
-        if(phoneNuList.includes(asId)){
-            const removeListId = phoneNuList.filter((item)=>item !== asId);
+    const hourCaluculation = (date) => {
+        let currentDate = new Date().getTime();
+        let lastDate = new Date(date).getTime();
+        let ans = Math.abs(currentDate - lastDate) / (3600 * 1000);
+        return Math.round(ans);
+    }
+
+    const onChangePhoneNumber = (asId) => {
+        if (phoneNuList.includes(asId)) {
+            const removeListId = phoneNuList.filter((item) => item !== asId);
             setPhoneNuList(removeListId);
-        }else{
+        } else {
             setPhoneNuList([...phoneNuList, asId]);
         }
     }
@@ -180,7 +215,50 @@ const MyLeads = () => {
                                         <p onClick={() => { setDropdownOption('lastOneMonth') }}>last One Month</p>
                                     </div>}
                                 </div>
-                                <FaExchangeAlt className='leadsExchange_Icon'onClick={()=>setSort({...sort, show:true})} />
+                                <Link to='/MyAppoinments' className='yLeadsLink'>
+                                    <button className='Lds_pageRedirect'>
+                                        <span>My Appointsment</span>
+                                        <HiArrowRight />
+                                    </button>
+                                </Link>
+                                <div className='Lead_controol_sort'>
+                                    <FaExchangeAlt className='leadsExchange_Icon' onClick={() => setSort({ ...sort, show: !sort.show })} />
+                                    {
+                                        sort.show ? 
+                                       
+
+                                            <div className='Sort_Container'>
+                                                {/* <div className="sortCloseIcon" onClick={() => setSort({ ...sort, show: false })}><AiOutlineCloseCircle /></div> */}
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'priceWise' })}>
+                                                    <div className='compleateIcon' >
+                                                        {sort.status === 'priceWise' && <BiCheck />}
+                                                    </div>
+                                                    <p>PRICE WISE</p>
+                                                </div>
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'loationWise' })}>
+                                                    <div className='compleateIcon'>
+                                                        {sort.status === 'loationWise' && <BiCheck />}
+                                                    </div>
+                                                    <p>LOCATION WISE</p>
+                                                </div>
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'stateWise' })}>
+                                                    <div className='compleateIcon'>
+                                                        {sort.status === 'stateWise' && <BiCheck />}
+                                                    </div>
+                                                    <p>STATE WISH</p>
+                                                </div>
+                                                <div className='sortSelect' onClick={() => setSort({ show: false, status: 'latesOffer' })}>
+                                                    <div className='compleateIcon'>
+                                                        {sort.status === 'latesOffer' && <BiCheck />}
+                                                    </div>
+                                                    <p>LATEST OFFERS</p>
+                                                </div>
+                                            </div>
+                                        
+                                            : null
+                                    }
+                                    {/* <div className='sortOpt_container'></div> */}
+                                </div>
 
                             </div>
                         </div>
@@ -191,12 +269,12 @@ const MyLeads = () => {
                                         <div className='leadsCard' key={idx}>
                                             <div className='lead_info'>
                                                 <div>
-                                                    <h6>{item.name}</h6>
-                                                    <p>Type of Vehicle: <span className='vehicleName'>catagory&gt;subCatagory</span></p>
-                                                    <p>{item.houseNoStreet}, {item.villageCity}, {item.districtName}, {item.stateName}, {item.countryName} -{item.pincode}</p>
+                                                    <h6 className='leadSHowCounters'>{item.name} <span>{item.counter}</span></h6>
+                                                    <p> <span className='vehicleName'>catagory &gt; subCatagory</span></p>
+                                                    <p>{item.houseNoStreet}{item.villageCity ? ',' : null} {item.villageCity}{item.districtName ? ',' : null} {item.districtName}{item.stateName ? ',' : null}{item.countryName ? ',' : null} {item.countryName}{item.pincode ? '-' : null} {item.pincode}</p>
                                                 </div>
                                                 <div>
-                                                    <p>{hourCaluculation(item.createdDate)} Hours Back</p>
+                                                    <p>{hourCaluculation(item.createdTime)} Hours Back</p>
                                                     {/* <p>{item.regNum} Model No</p> */}
                                                     <div className='leadDistance'>
                                                         <MdLocationPin />
@@ -204,41 +282,46 @@ const MyLeads = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                           <div className="leadVehicle_parent">
-                                           <div className='leadVehicle_info'>
-                                                <div>
-                                                    <img src={item.thumbnailUrl} alt="img" />
-                                                </div>
-                                                <div>
-                                                    <p><span className='rupeeIcon'>₹ </span> <span className='leadsVehicle_price'>{item.price}</span></p>
-                                                    <p><span className='vehicleName'>{item.title}- </span>{item.typeOfVehicle}</p>
-                                                    <p>{item.subtitle}</p>
-                                                    {/* <p style={{ visibility: item.regNo ? 'visible' : 'hidden' }}>Reg no: {item.regNo}</p> */}
-                                                </div>
-                                                
-                                            </div>
-                                            {assignee === item.createdBy ?
-                                                <div className='leads_call' style={{ flexDirection: 'column', backgroundColor: '#EC9C01' }}>
-                                                    <p className='masterLead_det' >Sheduled by: <span>{item.name}</span></p>
-                                                    <p className='masterLead_det'>Date: <span>24/11/2021 - 9:00pm</span></p>
+                                            <div className="leadVehicle_parent">
+                                                <div className='leadVehicle_info'>
+                                                    <div>
+                                                        <img src={tractorImg} alt="img" />
+                                                    </div>
+                                                    <div>
+                                                        <p><span className='rupeeIcon'>₹ </span> <span className='leadsVehicle_price'>{item.price}</span></p>
+                                                        <p><span className='vehicleName'>{item.title}{item.typeOfVehicle ? '-' : null} </span>{item.typeOfVehicle}</p>
+                                                        <p>{item.subtitle}</p>
+                                                        {/* <p style={{ visibility: item.regNo ? 'visible' : 'hidden' }}>Reg no: {item.regNo}</p> */}
+                                                    </div>
 
                                                 </div>
-                                                :
-                                                <div className='leads_call'>
-                                                    {/* <a href={`tel:${item.phone}`}> */}
-                                                    <div onClick={() => {onChangePhoneNumber(item.listId)}}>
-                                                        <BsTelephoneFill />
-                                                        {phoneNuList.includes(item.listId) ? <p>{item.phoneNumber}</p> : <p>CALL NOW</p>}
+                                                {assignee === item.createdBy ?
+                                                    <div className='leads_call' style={{ flexDirection: 'column', backgroundColor: '#EC9C01' }}>
+                                                        <p className='masterLead_det' >Sheduled by: <span>{item.name}</span></p>
+                                                        <p className='masterLead_det'>Date: <span>24/11/2021 - 9:00pm</span></p>
+
                                                     </div>
-                                                    {/* </a> */}
-                                                    <div onClick={() => setAppointmentForm(true)}>
-                                                        <IoMdCalendar />
-                                                        <p>ADD APPOINMENT</p>
+                                                    :
+                                                    <div className='leads_call'>
+                                                        {/* <a href={`tel:${item.phone}`}> */}
+                                                        <div onClick={() => { onChangePhoneNumber(item.listId) }}>
+                                                            <BsTelephoneFill />
+                                                            {phoneNuList.includes(item.listId) ? <p>{item.phoneNumber}</p> : <p>CALL NOW</p>}
+                                                        </div>
+                                                        {/* </a> */}
+                                                        <div>
+                                                            <div onClick={() => { setAppointmentForm(true); setAddAppObj(item) }}>
+                                                                <IoMdCalendar />
+                                                                <p>ADD APPOINMENT</p>
+
+                                                            </div>
+                                                            <span className='leadHoriLiNE'></span>
+                                                            <MdDelete className='leadDeleteButton' onClick={()=>{setDeleteLead({show:true, leadId:item.leadId});}}/>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            }
-                                           </div>
-                                            
+                                                }
+                                            </div>
+
                                         </div>
                                     )
                                 })
@@ -249,14 +332,14 @@ const MyLeads = () => {
                             }
                         </div>
                         <Pagination
-                    className="pagination-bar"
-                     currentPage={currentPage}
-                     totalCount={20}
-                     pageSize={pageSize}
-                     onPageChange={setCurrentPage}
-      />
+                            className="pagination-bar"
+                            currentPage={currentPage}
+                            totalCount={200}
+                            pageSize={pageSize}
+                            onPageChange={setCurrentPage}
+                        />
                     </div>
-                   
+
                 </div>
                 <div class="top_banner_img col-md-10 mx-auto">
                     <img class="" alt="top_banner_img" src={topBanner} />
@@ -264,43 +347,28 @@ const MyLeads = () => {
             </div>
             <OfferZone />
             {appointmentForm ?
-                <AddAppointment setAppointmentForm={setAppointmentForm} listLeadsArry={listLeadsArry} addAppObj={addAppObj}/>
+                <AddAppointment setAppointmentForm={setAppointmentForm} listLeadsArry={listLeadsArry} addAppObj={addAppObj} />
                 :
                 null
             }
-            {
-                sort.show?<div className='sortOpt_container'>
-                
-                    <div className='Sort_Container'>
-                    <div className="sortCloseIcon" onClick={()=>setSort({...sort, show:false})}><AiOutlineCloseCircle /></div>
-                    <div className='sortSelect'>
-                        <div className='compleateIcon' onClick={()=>setSort({show:false, status:'priceWise'})}>
-                        {sort.status=== 'priceWise' && <BiCheck />}
+                {
+                    deleteLead.show ?
+                    <div className='deletLeadPopup_wraper'>
+                        <div className='deleteLead_Container'>
+                            <div className='deleteOptionHead'>
+                                <h4>DELETE LEAD</h4>
+                            </div>
+                            <p className=''>Are you sure you want to delete Lead?</p>
+                            <div className='deleteConfirm_btns ldledbtns'> 
+                    
+                                <button className='delCancel' onClick={() => setDeleteLead({show:false, leadId:''})}> <MdArrowBackIosNew />  BACK</button>
+                                    <button className='delOk' onClick={() => deleteListLead()}> DELETE LEAD</button>
+                            </div>
                         </div>
-                        <p>PRICE WISE</p>
                     </div>
-                    <div className='sortSelect' onClick={()=>setSort({show:false, status:'loationWise'})}>
-                        <div className='compleateIcon'>
-                         {sort.status=== 'loationWise' && <BiCheck />}
-                        </div>
-                        <p>LOCATION WISE</p>
-                    </div>
-                    <div className='sortSelect' onClick={()=>setSort({show:false, status:'stateWise'})}>
-                        <div className='compleateIcon'>
-                         {sort.status=== 'stateWise' && <BiCheck />}
-                        </div>
-                        <p>STATE WISH</p>
-                    </div>
-                    <div className='sortSelect' onClick={()=>setSort({show:false, status:'latesOffer'})}>
-                        <div className='compleateIcon'>
-                         {sort.status=== 'latesOffer' && <BiCheck />}
-                        </div>
-                        <p>LATEST OFFERS</p>
-                    </div>
-                    </div>
-                </div>
-                :null
-            }
+                    :
+                    null
+                }
 
         </section>
 
